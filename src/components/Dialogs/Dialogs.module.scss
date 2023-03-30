@@ -1,0 +1,19 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+}
+
+.dialog {
+  padding: 20px;
+  &_item {
+    &.active {
+      color: #c32aa3;
+    }
+  }
+}
+
+.messages {
+  padding: 20px;
+  &_item {
+  }
+}

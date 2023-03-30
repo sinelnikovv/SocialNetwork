@@ -1,0 +1,19 @@
+.nav {
+  grid-area: n;
+  background-color: #fccc63;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  color: #4c68d7;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}
+.active {
+  background-color: #c32aa3;
+  color: #fccc63;
+}

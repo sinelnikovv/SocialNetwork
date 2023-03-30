@@ -1,0 +1,8 @@
+.dialog {
+  padding: 20px;
+  &_item {
+    &.active {
+      color: #c32aa3;
+    }
+  }
+}
