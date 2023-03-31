@@ -1,26 +1,24 @@
-import axios from "axios";
 import React from "react";
 import { connect } from "react-redux";
-import {
-  
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import { setUserProfile } from "../../redux/profileReducer";
+import { useParams } from "react-router-dom";
+import { getUserProfile } from "../../redux/profileReducer";
 import Profile from "./Profile";
+
+// wrapper to use react router's v6 hooks in class component(to use HOC pattern, like in router v5)
+export function withRouter(Child) {
+  return (props) => {
+    const match = { params: useParams() };
+    return <Child {...props} match={match} />;
+  };
+}
 
 class ProfileContainer extends React.Component {
   componentDidMount() {
-    let userId = this.props.router.params.userId;
-    if (!userId){
-      userId =2;
+    let userId = this.props.match.params.userId;
+    if (!userId) {
+      userId = this.props.myId;
     }
-        axios
-      .get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
-      .then((response) => {
-        this.props.setUserProfile(response.data);
-      });
+    this.props.getUserProfile(userId);
   }
   render() {
     return <Profile {...this.props} profile={this.props.profile} />;
@@ -29,27 +27,9 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
+  myId: state.auth.userId,
 });
 
-// wrapper to use react router's v6 hooks in class component(to use HOC pattern, like in router v5)
-function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
-      let location = useLocation();
-      let navigate = useNavigate();
-      let params = useParams();
-      return (
-          <Component
-              {...props}
-              router={{ location, navigate, params }}
-          />
-      );
-  }
-
-  return ComponentWithRouterProp;
-}
-
-
-
 export default connect(mapStateToProps, {
-  setUserProfile
+  getUserProfile,
 })(withRouter(ProfileContainer));
