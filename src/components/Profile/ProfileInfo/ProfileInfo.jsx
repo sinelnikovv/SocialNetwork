@@ -29,7 +29,10 @@ const ProfileInfo = (props) => {
         </div>
         <div className={s.info}>
           <h3 className={s.name}>{name}</h3>
-          <ProfileStatus status={"hi"} />
+          <ProfileStatus
+            status={props.status}
+            updateStatus={props.updateStatus}
+          />
           <div className={s.status}>{props.profile.aboutMe}</div>
           <div className={s.contacts}>
             <div className={s.contacts_title}>My contacts</div>
