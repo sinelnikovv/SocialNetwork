@@ -10,8 +10,8 @@ const LoginForm = reduxForm({
     <form onSubmit={props.handleSubmit}>
       <div>
         <Field
-          placeholder="Name"
-          name="login"
+          placeholder={"Email"}
+          name={"email"}
           component={Element}
           validate={[required]}
           elementType="input"
@@ -19,19 +19,19 @@ const LoginForm = reduxForm({
       </div>
       <div>
         <Field
-          placeholder="Password"
-          name="password"
+          placeholder={"Password"}
+          name={"password"}
           component={Element}
           validate={[required]}
           elementType="input"
+          type={"password"}
         />
       </div>
       <div>
         <Field
-          type="checkbox"
-          name="rememberMe"
+          type={"checkbox"}
+          name={"rememberMe"}
           component={Element}
-          validate={[required]}
           elementType="input"
         />
         Remember me
