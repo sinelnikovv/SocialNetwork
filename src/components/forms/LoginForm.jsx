@@ -1,13 +1,13 @@
 import { Field, reduxForm } from "redux-form";
-
+import s from "./FormsControl/FormsControls.module.scss";
 import { required } from "../../utils/validators/validator";
 import { Element } from "./FormsControl/FormsControls";
 
 const LoginForm = reduxForm({
   form: "login",
-})((props) => {
+})(({ handleSubmit, error }) => {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div>
         <Field
           placeholder={"Email"}
@@ -36,6 +36,7 @@ const LoginForm = reduxForm({
         />
         Remember me
       </div>
+      {error && <div className={s.formError}> {error}</div>}
       <div>
         <button>Login</button>
       </div>

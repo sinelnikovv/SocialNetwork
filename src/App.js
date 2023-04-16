@@ -2,20 +2,29 @@ import React from "react";
 import s from "./App.module.scss";
 import Container from "./components/Container/Container";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
-
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
+import { connect } from "react-redux";
+import { initializeApp } from "./redux/appReducer";
+import Preloader from "./components/common/preloader/Preloader";
 
-const App = () => {
-  return (
-    <BrowserRouter>
+class App extends React.Component {
+  componentDidMount() {
+    this.props.initializeApp();
+  }
+  render() {
+    if (!this.props.initialized) {
+      return <Preloader />;
+    }
+
+    return (
       <div className={s.wrapper}>
         <HeaderContainer />
 
@@ -32,8 +41,12 @@ const App = () => {
           </Routes>
         </Container>
       </div>
-    </BrowserRouter>
-  );
-};
+    );
+  }
+}
 
-export default App;
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized,
+});
+
+export default connect(mapStateToProps, { initializeApp })(App);

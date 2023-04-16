@@ -9,6 +9,8 @@ import {
 import Profile from "./Profile";
 import { withAuthRedirect } from "../hoc/withAuthRedirect";
 import { compose } from "redux";
+import { getProfile, getUserStatus } from "../../redux/profileSelectors";
+import { getAuthUserId, getIsAuth } from "../../redux/authSelector";
 
 // wrapper to use react router's v6 hooks in class component(to use HOC pattern, like in router v5)
 export function withRouter(Child) {
@@ -40,8 +42,10 @@ class ProfileContainer extends React.Component {
 }
 
 let mapStateToProps = (state) => ({
-  profile: state.profilePage.profile,
-  status: state.profilePage.status,
+  profile: getProfile(state),
+  status: getUserStatus(state),
+  authUserId: getAuthUserId(state),
+  isAuth: getIsAuth(state),
 });
 
 export default compose(
