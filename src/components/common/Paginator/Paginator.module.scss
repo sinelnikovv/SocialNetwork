@@ -1,0 +1,24 @@
+.paginatorContainer {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 20px;
+}
+
+.paginatorButton {
+  margin: 5px;
+}
+.paginatorPages {
+  display: flex;
+  align-items: center;
+  margin: 0 5px;
+}
+
+.paginatorNumber {
+  margin: 0 5px;
+}
+
+.selectedPage {
+  font-weight: bold;
+  margin: 0 15px;
+}

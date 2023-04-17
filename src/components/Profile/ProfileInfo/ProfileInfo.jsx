@@ -18,11 +18,6 @@ const ProfileInfo = (props) => {
 
   return (
     <div>
-      <img
-        className={s.banner}
-        src="https://thumbs.dreamstime.com/b/computer-cogs-technology-background-blue-banner-old-new-using-circuits-old-machine-31582628.jpg"
-        alt="Banner"
-      />
       <div className={s.content}>
         <div className={s.ava}>
           <img src={props.profile.photos.large} alt="" />
