@@ -5,7 +5,7 @@ import { Element } from "./FormsControl/FormsControls";
 
 const LoginForm = reduxForm({
   form: "login",
-})(({ handleSubmit, error }) => {
+})(({ handleSubmit, error, captchaUrl }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -36,6 +36,18 @@ const LoginForm = reduxForm({
         />
         Remember me
       </div>
+      {captchaUrl && (
+        <div>
+          <img src={captchaUrl} />
+          <Field
+            placeholder={"Symbols from image"}
+            name={"captcha"}
+            component={Element}
+            validate={[required]}
+            elementType="input"
+          />
+        </div>
+      )}
       {error && <div className={s.formError}> {error}</div>}
       <div>
         <button>Login</button>
