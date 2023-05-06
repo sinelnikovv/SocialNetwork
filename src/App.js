@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import s from "./App.module.scss";
 import Container from "./components/Container/Container";
 import Navbar from "./components/Navbar/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import { connect } from "react-redux";
 import { initializeApp } from "./redux/appReducer";
@@ -31,8 +31,20 @@ const ProfileContainer = React.lazy(() =>
 const LoginPage = React.lazy(() => import("./components/Login/Login"));
 
 class App extends React.Component {
+  catchAllUnhandledError = (e) => {
+    alert("Some error occured");
+    console.error(e);
+  };
   componentDidMount() {
     this.props.initializeApp();
+    window.addEventListener("unhandledrejection", this.catchAllUnhandledError);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener(
+      "unhandledrejection",
+      this.catchAllUnhandledError
+    );
   }
   render() {
     if (!this.props.initialized) {
@@ -53,13 +65,15 @@ class App extends React.Component {
             }
           >
             <Routes>
-              <Route path="/messages" element={<DialogsContainer />} />
+              <Route exact path="/" element={<Navigate to="/profile" />} />
               <Route path="/profile/:userId?" element={<ProfileContainer />} />
+              <Route path="/messages" element={<DialogsContainer />} />
               <Route path="/news" element={<News />} />
               <Route path="/music" element={<Music />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/users" element={<UsersContainer />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="*" element={<div>404</div>} />
             </Routes>
           </Suspense>
         </Container>
