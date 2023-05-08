@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import s from "./App.module.scss";
 import Container from "./components/Container/Container";
 import Navbar from "./components/Navbar/Navbar";
@@ -30,57 +30,56 @@ const ProfileContainer = React.lazy(() =>
 );
 const LoginPage = React.lazy(() => import("./components/Login/Login"));
 
-class App extends React.Component {
-  catchAllUnhandledError = (e) => {
-    alert("Some error occured");
+const App = (props) => {
+  const catchAllUnhandledError = (e) => {
     console.error(e);
+    alert("Some error occured");
   };
-  componentDidMount() {
-    this.props.initializeApp();
-    window.addEventListener("unhandledrejection", this.catchAllUnhandledError);
-  }
 
-  componentWillUnmount() {
-    window.removeEventListener(
+  useEffect(() => {
+    props.initializeApp();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("unhandledrejection", catchAllUnhandledError);
+
+    return window.removeEventListener(
       "unhandledrejection",
-      this.catchAllUnhandledError
+      catchAllUnhandledError
     );
-  }
-  render() {
-    if (!this.props.initialized) {
-      return <Preloader />;
-    }
+  }, []);
 
-    return (
-      <div className={s.wrapper}>
-        <HeaderContainer />
+  return !props.initialized ? (
+    <Preloader />
+  ) : (
+    <div className={s.wrapper}>
+      <HeaderContainer />
 
-        <Navbar />
-        <Container>
-          <Suspense
-            fallback={
-              <div>
-                <Preloader />
-              </div>
-            }
-          >
-            <Routes>
-              <Route exact path="/" element={<Navigate to="/profile" />} />
-              <Route path="/profile/:userId?" element={<ProfileContainer />} />
-              <Route path="/messages" element={<DialogsContainer />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/music" element={<Music />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/users" element={<UsersContainer />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="*" element={<div>404</div>} />
-            </Routes>
-          </Suspense>
-        </Container>
-      </div>
-    );
-  }
-}
+      <Navbar />
+      <Container>
+        <Suspense
+          fallback={
+            <div>
+              <Preloader />
+            </div>
+          }
+        >
+          <Routes>
+            <Route exact path="/" element={<Navigate to="/profile" />} />
+            <Route path="/profile/:userId?" element={<ProfileContainer />} />
+            <Route path="/messages" element={<DialogsContainer />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/music" element={<Music />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/users" element={<UsersContainer />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<div>404</div>} />
+          </Routes>
+        </Suspense>
+      </Container>
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => ({
   initialized: state.app.initialized,
