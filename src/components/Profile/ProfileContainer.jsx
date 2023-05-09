@@ -9,7 +9,6 @@ import {
   updateStatus,
 } from "../../redux/profileReducer";
 import Profile from "./Profile";
-import { withAuthRedirect } from "../hoc/withAuthRedirect";
 import { compose } from "redux";
 import { getProfile, getUserStatus } from "../../redux/profileSelectors";
 import { getAuthUserId, getIsAuth } from "../../redux/authSelector";
@@ -20,7 +19,7 @@ const ProfileContainer = (props) => {
   const refreshProfile = () => {
     let userId = paramId.userId;
     if (!userId) {
-      userId = props.auth.userId;
+      userId = props.userId;
     }
     props.getUserProfile(userId);
     props.getStatus(userId);
@@ -47,6 +46,7 @@ let mapStateToProps = (state) => ({
   status: getUserStatus(state),
   authUserId: getAuthUserId(state),
   isAuth: getIsAuth(state),
+  userId: state.auth.userId,
 });
 
 export default compose(
@@ -56,7 +56,5 @@ export default compose(
     updateStatus,
     savePhoto,
     saveProfile,
-  }),
-
-  withAuthRedirect
+  })
 )(ProfileContainer);
