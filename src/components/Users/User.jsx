@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./User.module.scss";
 import userPhoto from "../../assets/img/avatar.png";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const User = ({
   user,
@@ -19,13 +19,13 @@ const User = ({
     <div>
       <span>
         <div>
-          <NavLink to={`/profile/` + user.id}>
+          <Link to={`/profile/` + user.id}>
             <img
               src={user.photos.small != null ? user.photos.small : userPhoto}
               alt=""
               className={styles.userPhoto}
             />
-          </NavLink>
+          </Link>
         </div>
         {user.followed ? (
           <button
@@ -51,7 +51,7 @@ const User = ({
         <span>
           <div>{user.name}</div>
           <div>{user.status}</div>
-        </span>        
+        </span>
       </span>
     </div>
   );

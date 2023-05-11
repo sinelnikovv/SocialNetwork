@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from "react";
 import s from "./App.module.scss";
 import Container from "./components/Container/Container";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/NavbarContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import { connect } from "react-redux";
 import { initializeApp } from "./redux/appReducer";
