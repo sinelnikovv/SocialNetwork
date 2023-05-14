@@ -33,13 +33,11 @@ const UsersContainer = (props) => {
       <Users
         totalUsersCount={props.totalUsersCount}
         pageSize={props.pageSize}
-        pagesCount={props.pagesCount}
         currentPage={props.currentPage}
         onPageChanged={onPageChanged}
         unfollow={props.unfollow}
         follow={props.follow}
         users={props.users}
-        toggleFollowingProgress={props.toggleFollowingProgress}
         followingInProgress={props.followingInProgress}
       />
     </>

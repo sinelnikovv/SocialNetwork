@@ -12,7 +12,6 @@ const Users = ({
   followingInProgress,
   unfollow,
   follow,
-  ...props
 }) => {
   return (
     <div>

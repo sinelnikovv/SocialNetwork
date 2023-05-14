@@ -32,7 +32,7 @@ const ProfileContainer = (props) => {
   return (
     <Profile
       {...props}
-      isOwner={!paramId.userId}
+      isOwner={paramId.userId == props.authUserId}
       profile={props.profile}
       status={props.status}
       updateStatus={props.updateStatus}
@@ -46,7 +46,6 @@ let mapStateToProps = (state) => ({
   status: getUserStatus(state),
   authUserId: getAuthUserId(state),
   isAuth: getIsAuth(state),
-  userId: state.auth.userId,
 });
 
 export default compose(

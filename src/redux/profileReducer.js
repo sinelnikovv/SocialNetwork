@@ -2,35 +2,17 @@ import { stopSubmit } from "redux-form";
 import { profileApi, usersApi } from "../api/api";
 
 //variables for action types
-const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = "SET-USER-PROFILE";
 const SET_STATUS = "SET-STATUS";
 const SAVE_PHOTO_SUCCESS = "SAVE-PHOTO-SUCCESS";
 //init state
 let initialState = {
-  posts: [
-    { id: 1, message: "Hi, gow are you", likesCount: 12 },
-    { id: 2, message: "Fine", likesCount: 5 },
-    { id: 3, message: "good", likesCount: 0 },
-    { id: 4, message: "ok", likesCount: 3 },
-  ],
   profile: null,
   status: "",
 };
 //reducer
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_POST:
-      let newPost = {
-        id: 5,
-        message: action.newPost,
-        likesCount: 0,
-      };
-      return {
-        ...state,
-        posts: [...state.posts, newPost],
-      };
-
     case SET_USER_PROFILE:
       return {
         ...state,
@@ -54,12 +36,6 @@ const profileReducer = (state = initialState, action) => {
   }
 };
 //action creators
-export const addPostActionCreator = (newPost) => {
-  return {
-    type: ADD_POST,
-    newPost,
-  };
-};
 
 export const setUserProfile = (profile) => {
   return {
