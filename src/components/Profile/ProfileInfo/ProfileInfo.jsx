@@ -23,14 +23,6 @@ const ProfileInfo = (props) => {
     return <Preloader />;
   }
 
-  // let name = "";
-  // let initName = props.profile.fullName;
-  // let arr = initName.split(" ").map((a) => {
-  //   a = a.charAt(0).toUpperCase() + a.substr(1);
-  //   return a;
-  // });
-  // name = arr.join(" ");
-
   const onMainPhotoSelected = (e) => {
     if (e.target.files.length) {
       props.savePhoto(e.target.files[0]);

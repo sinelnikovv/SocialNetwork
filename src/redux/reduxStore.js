@@ -1,20 +1,39 @@
 import { configureStore } from "@reduxjs/toolkit";
 import profileReducer from "./profileReducer";
 import dialogReducer from "./dialogReducer";
-import usersReducer from "./usersReducer";
+//import usersReducer from "./usersReducer";
 import authReducer from "./authReducer";
-import { reducer as formReducer } from "redux-form";
 import appReducer from "./appReducer";
+import { reducer as formReducer } from "redux-form";
+
+// import profileReducer from "./profileSlice";
+//import dialogReducer from "./dialogSlice";
+
+// import authReducer from "./authSlice";
+// import appReducer from "./appSlice";
+
+import { authApi, profileApi, securityApi, usersApi } from "../api/apiSlice";
 
 const store = configureStore({
   reducer: {
+    // [authApi.reducerPath]: authApi.reducer,
+    // [profileApi.reducerPath]: profileApi.reducer,
+    // [securityApi.reducerPath]: securityApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer,
     profilePage: profileReducer,
     dialogPage: dialogReducer,
-    usersPage: usersReducer,
+    // usersPage: usersReducer,
     auth: authReducer,
     form: formReducer,
     app: appReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      // authApi.middleware,
+      // profileApi.middleware,
+      // securityApi.middleware,
+      usersApi.middleware
+    ),
 });
 
 export default store;
