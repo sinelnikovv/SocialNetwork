@@ -46,7 +46,6 @@ const Users = () => {
               <User
                 user={u}
                 key={u.id}
-                // followingInProgress={followingInProgress}
                 unfollow={handleUnfollow}
                 follow={handleFollow}
               />

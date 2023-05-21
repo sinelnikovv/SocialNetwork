@@ -1,16 +1,15 @@
 import { Field, reduxForm } from "redux-form";
 import s from "./ProfileData.module.scss";
-import { Element } from "../../forms/FormsControl/FormsControls";
-import err from "../../forms/FormsControl/FormsControls.module.scss";
-
-import facebook from "../../../assets/img/facebook.svg";
-import twitter from "../../../assets/img/twitter.svg";
-import github from "../../../assets/img/github.svg";
-import instagram from "../../../assets/img/instagram.svg";
-import mainLink from "../../../assets/img/mainLink.svg";
-import vk from "../../../assets/img/vk.svg";
-import website from "../../../assets/img/website.svg";
-import youtube from "../../../assets/img/youtube.svg";
+import { Element } from "../forms/FormsControl/FormsControls";
+import err from "../forms/FormsControl/FormsControls.module.scss";
+import facebook from "../../assets/img/facebook.svg";
+import twitter from "../../assets/img/twitter.svg";
+import github from "../../assets/img/github.svg";
+import instagram from "../../assets/img/instagram.svg";
+import mainLink from "../../assets/img/mainLink.svg";
+import vk from "../../assets/img/vk.svg";
+import website from "../../assets/img/website.svg";
+import youtube from "../../assets/img/youtube.svg";
 
 const ProfileDataForm = reduxForm({
   form: "editProfile",

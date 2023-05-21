@@ -18,9 +18,9 @@ const ProfileContainer = (props) => {
 
   const refreshProfile = () => {
     let userId = paramId.userId;
-    if (!userId) {
-      userId = props.userId;
-    }
+    // if (!userId) {
+    //   userId = props.userId;
+    // }
     props.getUserProfile(userId);
     props.getStatus(userId);
   };
@@ -32,7 +32,7 @@ const ProfileContainer = (props) => {
   return (
     <Profile
       {...props}
-      isOwner={paramId.userId == props.authUserId}
+      //isOwner={paramId.userId == props.authUserId}
       profile={props.profile}
       status={props.status}
       updateStatus={props.updateStatus}

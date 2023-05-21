@@ -1,11 +1,11 @@
-import facebook from "../../../assets/img/facebook.svg";
-import twitter from "../../../assets/img/twitter.svg";
-import github from "../../../assets/img/github.svg";
-import instagram from "../../../assets/img/instagram.svg";
-import mainLink from "../../../assets/img/mainLink.svg";
-import vk from "../../../assets/img/vk.svg";
-import website from "../../../assets/img/website.svg";
-import youtube from "../../../assets/img/youtube.svg";
+import facebook from "../../assets/img/facebook.svg";
+import twitter from "../../assets/img/twitter.svg";
+import github from "../../assets/img/github.svg";
+import instagram from "../../assets/img/instagram.svg";
+import mainLink from "../../assets/img/mainLink.svg";
+import vk from "../../assets/img/vk.svg";
+import website from "../../assets/img/website.svg";
+import youtube from "../../assets/img/youtube.svg";
 import s from "./ProfileData.module.scss";
 
 const ProfileData = (props) => {

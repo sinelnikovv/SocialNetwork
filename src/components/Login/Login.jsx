@@ -14,9 +14,9 @@ const Login = (props) => {
     );
   };
 
-  if (props.isAuth) {
-    return <Navigate to={"/profile"} />;
-  }
+  // if (props.isAuth) {
+  //   return <Navigate to={"/profile"} />;
+  // }
   return (
     <div>
       <h1>Login</h1>
@@ -27,7 +27,7 @@ const Login = (props) => {
 
 const mapStateToProps = (state) => ({
   captchaUrl: state.auth.captchaUrl,
-  isAuth: state.auth.isAuth,
+  //isAuth: state.auth.isAuth,
 });
 
 export default connect(mapStateToProps, { login })(Login);

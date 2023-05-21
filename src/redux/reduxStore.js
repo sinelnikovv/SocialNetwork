@@ -16,21 +16,20 @@ import { authApi, profileApi, securityApi, usersApi } from "../api/apiSlice";
 
 const store = configureStore({
   reducer: {
-    // [authApi.reducerPath]: authApi.reducer,
-    // [profileApi.reducerPath]: profileApi.reducer,
+    [profileApi.reducerPath]: profileApi.reducer,
     // [securityApi.reducerPath]: securityApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
-    profilePage: profileReducer,
+    [authApi.reducerPath]: authApi.reducer,
     dialogPage: dialogReducer,
     // usersPage: usersReducer,
-    auth: authReducer,
+    //auth: authReducer,
     form: formReducer,
-    app: appReducer,
+    //app: appReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      // authApi.middleware,
-      // profileApi.middleware,
+      authApi.middleware,
+      profileApi.middleware,
       // securityApi.middleware,
       usersApi.middleware
     ),

@@ -1,71 +1,59 @@
 import React, { Suspense, useEffect } from "react";
 import s from "./App.module.scss";
 import Container from "./components/Container/Container";
-import Navbar from "./components/Navbar/NavbarContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
-import { connect } from "react-redux";
-import { initializeApp } from "./redux/appReducer";
+import Navbar from "./components/Navbar/Navbar";
+import Header from "./components/Header/Header";
 import Preloader from "./components/common/preloader/Preloader";
-import store from "./redux/reduxStore";
-import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/routes/AppRouter";
+import { useMeQuery } from "./api/apiSlice";
 
 const App = (props) => {
-  const catchAllUnhandledError = (e) => {
-    console.error(e);
-    alert("Some error occured");
-  };
+  const { data, error, isLoading } = useMeQuery();
 
-  useEffect(() => {
-    props.initializeApp();
-  }, []);
+  // const catchAllUnhandledError = (e) => {
+  //   console.error(e);
+  //   alert("Some error occured");
+  // };
 
-  useEffect(() => {
-    window.addEventListener("unhandledrejection", catchAllUnhandledError);
+  // useEffect(() => {
+  //   props.initializeApp();
+  // }, []);
 
-    return window.removeEventListener(
-      "unhandledrejection",
-      catchAllUnhandledError
-    );
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("unhandledrejection", catchAllUnhandledError);
 
-  return !props.initialized ? (
-    <Preloader />
-  ) : (
-    <div className={s.wrapper}>
-      <HeaderContainer />
+  //   return window.removeEventListener(
+  //     "unhandledrejection",
+  //     catchAllUnhandledError
+  //   );
+  // }, []);
 
-      <Navbar />
-      <Container>
-        <Suspense
-          fallback={
-            <div>
-              <Preloader />
-            </div>
-          }
-        >
-          <AppRouter isAuth={props.isAuth} />
-        </Suspense>
-      </Container>
-    </div>
-  );
-};
-
-const mapStateToProps = (state) => ({
-  initialized: state.app.initialized,
-  isAuth: state.auth.isAuth,
-});
-
-let AppContainer = connect(mapStateToProps, { initializeApp })(App);
-
-let MainApp = () => {
   return (
     <BrowserRouter>
-      <Provider store={store}>
-        <AppContainer />
-      </Provider>
+      <div className={s.wrapper}>
+        <>
+          {error ? (
+            <>Oh no, there was an error</>
+          ) : isLoading ? (
+            <>
+              <Preloader />
+            </>
+          ) : data ? (
+            <>
+              <Header />
+              <Navbar myId={data.data.id} />
+              <Container>
+                <Suspense fallback={<Preloader />}>
+                  <AppRouter />
+                </Suspense>
+              </Container>
+            </>
+          ) : null}
+        </>
+      </div>
     </BrowserRouter>
   );
 };
-export default MainApp;
+
+export default App;

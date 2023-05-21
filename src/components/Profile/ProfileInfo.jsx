@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import Preloader from "../../common/preloader/Preloader";
+import Preloader from "../common/preloader/Preloader";
 import s from "./ProfileInfo.module.scss";
 import userPhoto from "../../../assets/img/avatar.png";
 import ProfileDataForm from "./ProfileDataForm";
 import ProfileData from "./ProfileData";
-import ProfileStatus from "../../ProfileStatus/ProfileStatus";
+import ProfileStatus from "../ProfileStatus/ProfileStatus";
+import { useParams } from "react-router-dom";
 
 const ProfileInfo = (props) => {
   const [editMode, setEditMode] = useState(false);
+  let paramId = useParams();
 
   const goToEditMode = () => {
     setEditMode(true);
