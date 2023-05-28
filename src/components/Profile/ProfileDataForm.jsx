@@ -1,7 +1,10 @@
-import { Field, reduxForm } from "redux-form";
+// import { Field, reduxForm } from "redux-form";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import s from "./ProfileData.module.scss";
-import { Element } from "../forms/FormsControl/FormsControls";
-import err from "../forms/FormsControl/FormsControls.module.scss";
+// import { Element } from "../forms/FormsControl/FormsControls";
+// import err from "../forms/FormsControl/FormsControls.module.scss";
 import facebook from "../../assets/img/facebook.svg";
 import twitter from "../../assets/img/twitter.svg";
 import github from "../../assets/img/github.svg";
@@ -11,51 +14,70 @@ import vk from "../../assets/img/vk.svg";
 import website from "../../assets/img/website.svg";
 import youtube from "../../assets/img/youtube.svg";
 
-const ProfileDataForm = reduxForm({
-  form: "editProfile",
-})(({ handleSubmit, profile, error }) => {
+
+const ProfileDataForm = (props) => {
+
+  const changeProfileSchema = yup.object().shape({
+    fullName: yup
+      .string("Name should be a string")    
+      .min(2,"Name must have at least 2 letters"),
+    
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fullName: props.profile.fullName,
+      aboutMe: props.profile.aboutMe,
+      lookingForAJob: props.profile.lookingForAJob,
+      lookingForAJobDescription: props.profile.lookingForAJobDescription,
+      facebook: props.profile.contacts.facebook,
+      github: props.profile.contacts.github,
+      instagram: props.profile.contacts.instagram,
+      mainLink: props.profile.contacts.mainLink,
+      twitter: props.profile.contacts.twitter,
+      vk: props.profile.contacts.vk,
+      website: props.profile.contacts.website,
+      youtube: props.profile.contacts.youtube,
+    },
+    resolver: yupResolver(changeProfileSchema),
+    
+  });
+
+  // const formSubmitHandler = (data) => {
+  //   console.log(data);
+  // };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(props.onSubmit)}>
       <button>Save</button>
 
-      <div className={s.status}>
-        Full name:{" "}
-        <Field
-          placeholder={"Full name"}
-          name={"fullName"}
-          component={Element}
-          elementType="input"
-        />
+      <div>
+        <label htmlFor="fullName">Your name</label>
+        <input {...register("fullName")} name="fullName" id="fullName" placeholder="Full name" />
+        {errors.fullName ? (
+            <span>{errors.fullName.message}</span>
+          ) : (
+            <></>
+          )}
       </div>
 
       <div>
-        About me:
-        <Field
-          placeholder={"About me"}
-          name={"aboutMe"}
-          component={Element}
-          elementType="input"
-        />
+        <label htmlFor="aboutMe">About me:</label>
+        <input {...register("aboutMe")} name="aboutMe" id="aboutMe" placeholder={"About me"} />
       </div>
 
       <div>
-        Looking For a job:
-        <Field
-          name={"lookingForAJob"}
-          component={Element}
-          elementType="input"
-          type={"checkbox"}
-        />
+        <label htmlFor="lookingForAJob">Looking For a job:</label>
+        <input {...register("lookingForAJob")} name="lookingForAJob" id="lookingForAJob" type={"checkbox"} />
       </div>
 
       <div>
-        Skills:
-        <Field
-          placeholder={"Skiils"}
-          name={"lookingForAJobDescription"}
-          component={Element}
-          elementType="input"
-        />
+        <label htmlFor="lookingForAJobDescription">Skills:</label>
+        <input {...register("lookingForAJobDescription")} name="lookingForAJobDescription" id="lookingForAJobDescription" placeholder={"My skills"} />
       </div>
 
       <div className={s.contacts_title}>
@@ -66,11 +88,11 @@ const ProfileDataForm = reduxForm({
               <img src={facebook} alt="Facebook logo" />
             </div>
             <div className={s.contactItem}>
-              <Field
+              <input
+              {...register("facebook")}
+                name="facebook"
+                id="facebook"
                 placeholder={"Facebook"}
-                name={"contacts.facebook"}
-                component={Element}
-                elementType="input"
               />
             </div>
           </div>
@@ -80,12 +102,12 @@ const ProfileDataForm = reduxForm({
               <img src={github} alt="Github logo" />
             </div>
             <div className={s.contactItem}>
-              <Field
+            <input
+            {...register("github")}
+                name="github"
+                id="github"
                 placeholder={"Github"}
-                name={"contacts.github"}
-                component={Element}
-                elementType="input"
-              />
+              />              
             </div>
           </div>
 
@@ -94,12 +116,12 @@ const ProfileDataForm = reduxForm({
               <img src={instagram} alt="Instagram logo" />
             </div>
             <div className={s.contactItem}>
-              <Field
+            <input
+            {...register("instagram")}
+                name="instagram"
+                id="instagram"
                 placeholder={"Instagram"}
-                name={"contacts.instagram"}
-                component={Element}
-                elementType="input"
-              />
+              />                   
             </div>
           </div>
 
@@ -107,13 +129,13 @@ const ProfileDataForm = reduxForm({
             <div className={s.logo}>
               <img src={mainLink} alt="main link logo" />
             </div>
-            <div className={s.contactItem}>
-              <Field
+            <div className={s.contactItem}>              
+              <input
+              {...register("mainLink")}
+                name="mainLink"
+                id="mainLink"
                 placeholder={"Main link"}
-                name={"contacts.mainLink"}
-                component={Element}
-                elementType="input"
-              />
+              />    
             </div>
           </div>
 
@@ -122,12 +144,12 @@ const ProfileDataForm = reduxForm({
               <img src={twitter} alt="twitter logo" />
             </div>
             <div className={s.contactItem}>
-              <Field
+            <input
+            {...register("twitter")}
+                name="twitter"
+                id="twitter"
                 placeholder={"Twitter"}
-                name={"contacts.twitter"}
-                component={Element}
-                elementType="input"
-              />
+              />                
             </div>
           </div>
 
@@ -136,12 +158,12 @@ const ProfileDataForm = reduxForm({
               <img src={vk} alt="vk logo" />
             </div>
             <div className={s.contactItem}>
-              <Field
+            <input
+            {...register("vk")}
+                name="vk"
+                id="vk"
                 placeholder={"Vk"}
-                name={"contacts.vk"}
-                component={Element}
-                elementType="input"
-              />
+              />                
             </div>
           </div>
 
@@ -150,12 +172,12 @@ const ProfileDataForm = reduxForm({
               <img src={website} alt="website logo" />
             </div>
             <div className={s.contactItem}>
-              <Field
+            <input
+            {...register("website")}
+                name="website"
+                id="website"
                 placeholder={"Website"}
-                name={"contacts.website"}
-                component={Element}
-                elementType="input"
-              />
+              />                   
             </div>
           </div>
 
@@ -164,19 +186,186 @@ const ProfileDataForm = reduxForm({
               <img src={youtube} alt="youtube logo" />
             </div>
             <div className={s.contactItem}>
-              <Field
+            <input
+            {...register("youtube")}
+                name="youtube"
+                id="youtube"
                 placeholder={"Youtube"}
-                name={"contacts.youtube"}
-                component={Element}
-                elementType="input"
-              />
+              />              
             </div>
           </div>
         </div>
-      </div>
-      {error && <div className={err.formError}> {error}</div>}
+      </div>     
     </form>
   );
-});
+}
+
+// const ProfileDataForm = reduxForm({
+//   form: "editProfile",
+// })(({ handleSubmit, profile, error }) => {
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <button>Save</button>
+
+//       <div className={s.status}>
+//         Full name:{" "}
+//         <Field
+//           placeholder={"Full name"}
+//           name={"fullName"}
+//           component={Element}
+//           elementType="input"
+//         />
+//       </div>
+
+//       <div>
+//         About me:
+//         <Field
+//           placeholder={"About me"}
+//           name={"aboutMe"}
+//           component={Element}
+//           elementType="input"
+//         />
+//       </div>
+
+//       <div>
+//         Looking For a job:
+//         <Field
+//           name={"lookingForAJob"}
+//           component={Element}
+//           elementType="input"
+//           type={"checkbox"}
+//         />
+//       </div>
+
+//       <div>
+//         Skills:
+//         <Field
+//           placeholder={"Skiils"}
+//           name={"lookingForAJobDescription"}
+//           component={Element}
+//           elementType="input"
+//         />
+//       </div>
+
+//       <div className={s.contacts_title}>
+//         My contacts:
+//         <div className={s.contacts}>
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={facebook} alt="Facebook logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Facebook"}
+//                 name={"contacts.facebook"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={github} alt="Github logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Github"}
+//                 name={"contacts.github"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={instagram} alt="Instagram logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Instagram"}
+//                 name={"contacts.instagram"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={mainLink} alt="main link logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Main link"}
+//                 name={"contacts.mainLink"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={twitter} alt="twitter logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Twitter"}
+//                 name={"contacts.twitter"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={vk} alt="vk logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Vk"}
+//                 name={"contacts.vk"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={website} alt="website logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Website"}
+//                 name={"contacts.website"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+
+//           <div className={s.contact}>
+//             <div className={s.logo}>
+//               <img src={youtube} alt="youtube logo" />
+//             </div>
+//             <div className={s.contactItem}>
+//               <Field
+//                 placeholder={"Youtube"}
+//                 name={"contacts.youtube"}
+//                 component={Element}
+//                 elementType="input"
+//               />
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       {error && <div className={err.formError}> {error}</div>}
+//     </form>
+//   );
+// });
 
 export default ProfileDataForm;

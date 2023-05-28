@@ -8,45 +8,45 @@ const instance = axios.create({
   },
 });
 //done
-export const usersApi = {
-  //done
-  getUsers(currentPage, pageSize) {
-    return instance
-      .get(`users?page=${currentPage}&count=${pageSize}`)
-      .then((response) => {
-        return response.data;
-      });
-  },
-  //done
-  follow(userId) {
-    return instance.post(`follow/${userId}`).then((response) => {
-      return response.data;
-    });
-  },
-  //done
-  unfollow(userId) {
-    return instance.delete(`follow/${userId}`).then((response) => {
-      return response.data;
-    });
-  },
-  //dont need
-  getProfile(userId) {
-    return profileApi.getProfile(userId);
-  },
-};
+// export const usersApi = {
+//   //done
+//   getUsers(currentPage, pageSize) {
+//     return instance
+//       .get(`users?page=${currentPage}&count=${pageSize}`)
+//       .then((response) => {
+//         return response.data;
+//       });
+//   },
+//   //done
+//   follow(userId) {
+//     return instance.post(`follow/${userId}`).then((response) => {
+//       return response.data;
+//     });
+//   },
+//   //done
+//   unfollow(userId) {
+//     return instance.delete(`follow/${userId}`).then((response) => {
+//       return response.data;
+//     });
+//   },
+//   //dont need
+//   getProfile(userId) {
+//     return profileApi.getProfile(userId);
+//   },
+// };
 
 export const profileApi = {
-  getProfile(userId) {
-    return instance.get(`profile/` + userId);
-  },
+  // getProfile(userId) {
+  //   return instance.get(`profile/` + userId);
+  // },
 
-  getStatus(userId) {
-    return instance.get(`profile/status/` + userId);
-  },
+  // getStatus(userId) {
+  //   return instance.get(`profile/status/` + userId);
+  // },
 
-  updateStatus(status) {
-    return instance.put(`profile/status`, { status: status });
-  },
+  // updateStatus(status) {
+  //   return instance.put(`profile/status`, { status: status });
+  // },
 
   savePhoto(photoFile) {
     let formData = new FormData();
@@ -58,9 +58,9 @@ export const profileApi = {
     });
   },
 
-  saveProfile(profile) {
-    return instance.put(`profile`, profile);
-  },
+  // saveProfile(profile) {
+  //   return instance.put(`profile`, profile);
+  // },
 };
 
 export const authApi = {

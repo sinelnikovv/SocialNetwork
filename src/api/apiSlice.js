@@ -36,7 +36,7 @@ export const usersApi = createApi({
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
-
+  tagTypes: ["Profile", "Status"],
   baseQuery: fetchBaseQuery({
     baseUrl: "https://social-network.samuraijs.com/api/1.0/",
     headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
@@ -46,36 +46,41 @@ export const profileApi = createApi({
     // A query endpoint with an argument
     getProfile: build.query({
       query: (userId) => `profile/${userId}`,
+      providesTags: ["Profile"],
     }),
     getStatus: build.query({
       query: (userId) => `profile/status/` + userId,
+      providesTags: ["Status"],
     }),
     // A mutation endpoint
     updateStatus: build.mutation({
-      query: (status) => ({
+      query: (body) => ({
         url: `profile/status`,
         method: "PUT",
-        status,
+        body,
       }),
+      invalidatesTags: ["Status"],
     }),
     savePhoto: build.mutation({
       query: (photoFile) => {
-        let formData = new FormData();
-        formData.append("image", photoFile);
+        let body = new FormData();
+        body.append("image", photoFile);
         return {
           url: `profile/photo`,
           method: "PUT",
-          formData,
+          body,
         };
       },
+      invalidatesTags: ["Profile"],
     }),
 
     saveProfile: build.mutation({
-      query: (profile) => ({
+      query: (body) => ({
         url: `profile`,
         method: "PUT",
-        profile,
+        body,
       }),
+      invalidatesTags: ["Profile"],
     }),
   }),
 });

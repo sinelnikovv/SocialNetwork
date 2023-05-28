@@ -20,15 +20,15 @@ const ProfileData = (props) => {
           name="job"
           id="job"
           checked={props.profile.lookingForAJob}
-          disabled={!props.isOwner}
+          disabled
         />
       </div>
-      <div>
-        Skills:
-        {props.profile.lookingForAJob && (
+      {props.profile.lookingForAJob && (
+        <div>
+          Skills:
           <div>{props.profile.lookingForAJobDescription}</div>
-        )}
-      </div>
+        </div>
+      )}
 
       {Object.values(props.profile.contacts).some((elem) => elem !== null) && (
         <div className={s.contacts_title}>

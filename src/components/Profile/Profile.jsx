@@ -8,8 +8,9 @@ import Preloader from "../common/preloader/Preloader";
 import { useParams } from "react-router-dom";
 import {
   useGetProfileQuery,
-  useGetStatusQuery,
   useMeQuery,
+  useSavePhotoMutation,
+  useSaveProfileMutation,
 } from "../../api/apiSlice";
 
 const Profile = (props) => {
@@ -24,30 +25,52 @@ const Profile = (props) => {
   let paramId = useParams();
   let userId = paramId.userId;
   let isOwner = false;
+  if(!userId){
+    userId = me.me.id
+  }
   if (userId == me.me.id) {
     isOwner = true;
   }
 
   const profile = useGetProfileQuery(userId);
 
-  // const { data, error, isLoading, isFetching } = useGetStatusQuery(userId);
-  // debugger;
+  const [saveProfile, { isLoading }] = useSaveProfileMutation();
+
+  const [savePhoto] = useSavePhotoMutation();
+
 
   const goToEditMode = () => {
     setEditMode(true);
   };
 
-  const onSubmit = (formData) => {
-    props.saveProfile(formData).then(() => {
-      setEditMode(false);
-    });
+  const onSubmit = (formData) => {       
+    let body = {
+      fullName: formData.fullName,
+      aboutMe: formData.aboutMe,
+      lookingForAJob: formData.lookingForAJob,
+      lookingForAJobDescription: formData.lookingForAJobDescription,
+      contacts:{
+        facebook: formData.facebook,
+        github: formData.github,
+        instagram: formData.instagram,
+        mainLink: formData.mainLink,
+        twitter: formData.twitter,
+        vk: formData.vk,
+        website: formData.website,
+        youtube: formData.youtube,
+      }      
+    }
+    saveProfile(body).unwrap();  
+    console.log(body);  
+    setEditMode(false);
   };
 
   const onMainPhotoSelected = (e) => {
     if (e.target.files.length) {
-      props.savePhoto(e.target.files[0]);
-    }
+      savePhoto(e.target.files[0]);
+      }
   };
+  
   return (
     <main className={s.main}>
       <>
@@ -59,7 +82,8 @@ const Profile = (props) => {
           </>
         ) : profile.data ? (
           <>
-            {profile.data.isFetching && <Preloader />}
+            {(isLoading) && <Preloader />}
+            {profile.isFetching && <Preloader />}
             <div>
               <div className={s.content}>
                 <div className={s.ava}>
@@ -70,11 +94,8 @@ const Profile = (props) => {
                 </div>
                 <div className={s.info}>
                   <h3 className={s.name}>{profile.data.fullName}</h3>
-                  <ProfileStatus
-                    isOwner={isOwner}
-                    status={props.status}
-                    updateStatus={props.updateStatus}
-                  />
+
+                  <ProfileStatus isOwner={isOwner} userId={userId} />
 
                   {editMode ? (
                     <ProfileDataForm
