@@ -50,7 +50,7 @@ const AppRouter = () => {
     </Routes>
   );
 
-  return me ? privateRoutes : publicRoutes;
+  return me.id ? privateRoutes : publicRoutes;
 };
 
 export default AppRouter;

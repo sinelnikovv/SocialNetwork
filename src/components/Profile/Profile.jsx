@@ -60,8 +60,7 @@ const Profile = (props) => {
         youtube: formData.youtube,
       }      
     }
-    saveProfile(body).unwrap();  
-    console.log(body);  
+    saveProfile(body).unwrap();      
     setEditMode(false);
   };
 

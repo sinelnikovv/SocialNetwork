@@ -1,14 +1,20 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import s from "./Header.module.scss";
-import { useMeQuery } from "../../api/apiSlice";
+import { useLogoutMutation, useMeQuery } from "../../api/apiSlice";
 
 const Header = (props) => {
+
   const { me } = useMeQuery(undefined, {
     selectFromResult: ({ data }) => ({
       me: data.data,
     }),
   });
+
+  const [logout] = useLogoutMutation();
+
+  
+
   return (
     <header className={s.header}>
       <img
@@ -18,7 +24,7 @@ const Header = (props) => {
       <div className="s.login_block">
         {me.id ? (
           <div>
-            {me.login} - <button onClick={props.logout}>Log out</button>
+            {me.login} - <button onClick={logout}>Log out</button>
           </div>
         ) : (
           <NavLink to={"/login"}>Login</NavLink>

@@ -36,13 +36,39 @@ export const usersApi = createApi({
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
-  tagTypes: ["Profile", "Status"],
+  tagTypes: ["Profile", "Status", "Me"],
   baseQuery: fetchBaseQuery({
     baseUrl: "https://social-network.samuraijs.com/api/1.0/",
     headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
     credentials: "include",
   }),
   endpoints: (build) => ({
+    // A query endpoint without argument
+    me: build.query({
+      query: () => `auth/me`, 
+      providesTags: ["Me"],     
+    }),
+    //A mutation endpoint
+    login: build.mutation({
+      query: (body) => ({
+        url: `auth/login`,
+        method: "POST",
+        body
+      }),
+      invalidatesTags: ["Me", "Profile"],
+    }),
+
+    logout: build.mutation({
+      query: () => ({
+        url: `auth/login`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Me", "Profile"],
+    }),
+
+    getCaptchaUrl: build.query({
+      query: () => `security/get-captcha-url`,
+    }),
     // A query endpoint with an argument
     getProfile: build.query({
       query: (userId) => `profile/${userId}`,
@@ -97,44 +123,39 @@ export const authApi = createApi({
     me: build.query({
       query: () => `auth/me`,
     }),
-    // A mutation endpoint
-    // login: build.mutation({
-    //   query: (email, password, rememberMe, captcha) => ({
-    //     url: `auth/login`,
-    //     method: "POST",
-    //     email,
-    //     password,
-    //     rememberMe,
-    //     captcha,
-    //   }),
-    // }),
-    //
-    // logout: build.mutation({
-    //   query: () => ({
-    //     url: `auth/login`,
-    //     method: "DELETE",
-    //   }),
-    // }),
+    //A mutation endpoint
+    login: build.mutation({
+      query: (body) => ({
+        url: `auth/login`,
+        method: "POST",
+        body
+      }),
+    }),
+
+    logout: build.mutation({
+      query: () => ({
+        url: `auth/login`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-// export const securityApi = createApi({
-//   reducerPath: "securityApi",
+export const securityApi = createApi({
+  reducerPath: "securityApi",
 
-//   baseQuery: fetchBaseQuery({
-//     baseUrl: "https://social-network.samuraijs.com/api/1.0/",
-//     prepareHeaders: {
-//       "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e",
-//     },
-//     credentials: "include",
-//     endpoints: (build) => ({
-//       // A query endpoint without argument
-//       getCaptchaUrl: build.query({
-//         query: () => `security/get-captcha-url`,
-//       }),
-//     }),
-//   }),
-// });
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://social-network.samuraijs.com/api/1.0/",
+    headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
+    credentials: "include",
+  }),
+  endpoints: (build) => ({
+    // A query endpoint without argument
+    getCaptchaUrl: build.query({
+      query: () => `security/get-captcha-url`,
+    }),
+  }),
+});
 
 export const { useGetUsersQuery, useFollowMutation, useUnfollowMutation } =
   usersApi;
@@ -145,12 +166,12 @@ export const {
   useUpdateStatusMutation,
   useSavePhotoMutation,
   useSaveProfileMutation,
+  useMeQuery,
+  useLoginMutation, 
+  useLogoutMutation,
+  useGetCaptchaUrlQuery 
 } = profileApi;
 
-export const {
-  useMeQuery,
-  // useLoginMutation,
-  // useLogoutMutation
-} = authApi;
+// export const { useMeQuery, useLoginMutation, useLogoutMutation } = authApi;
 
-// export const { useGetCaptchaUrlQuery } = securityApi;
+//export const { useGetCaptchaUrlQuery } = securityApi;
