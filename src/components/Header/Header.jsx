@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import s from "./Header.module.scss";
 import { useLogoutMutation, useMeQuery } from "../../api/apiSlice";
 
-const Header = (props) => {
+const Header = () => {
 
   const { me } = useMeQuery(undefined, {
     selectFromResult: ({ data }) => ({

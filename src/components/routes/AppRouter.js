@@ -20,7 +20,7 @@ const AppRouter = () => {
     selectFromResult: ({ data }) => ({
       me: data.data,
     }),
-  });  
+  });
 
   const privateRoutes = (
     <Routes>

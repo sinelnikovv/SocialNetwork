@@ -13,7 +13,7 @@ import {
   useSaveProfileMutation,
 } from "../../api/apiSlice";
 
-const Profile = (props) => {
+const Profile = () => {
   const [editMode, setEditMode] = useState(false);
 
   const me = useMeQuery(undefined, {
@@ -97,16 +97,14 @@ const Profile = (props) => {
                   <ProfileStatus isOwner={isOwner} userId={userId} />
 
                   {editMode ? (
-                    <ProfileDataForm
-                      initialValues={profile.data}
+                    <ProfileDataForm                      
                       profile={profile.data}
                       onSubmit={onSubmit}
                     />
                   ) : (
                     <ProfileData
                       goToEditMode={goToEditMode}
-                      profile={profile.data}
-                      initialValues={profile.data}
+                      profile={profile.data}                 
                       isOwner={isOwner}
                     />
                   )}

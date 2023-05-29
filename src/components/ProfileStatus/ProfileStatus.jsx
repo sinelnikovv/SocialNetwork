@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useGetStatusQuery, useUpdateStatusMutation } from "../../api/apiSlice";
 
 const ProfileStatus = (props) => {
-  const { data, isFetching } = useGetStatusQuery(props.userId);
+  const { data } = useGetStatusQuery(props.userId);
 
-  const [updateStatus, { isError }] = useUpdateStatusMutation();
+  const [updateStatus] = useUpdateStatusMutation();
 
   const [editMode, setEditMode] = useState(false);
   const [newStatus, setNewStatus] = useState();
@@ -15,7 +15,6 @@ const ProfileStatus = (props) => {
       setNewStatus(data);
     }
   };
-  
 
   const deactivateEditMode = async () => {
     await updateStatus({ status: newStatus }).unwrap();
@@ -26,26 +25,24 @@ const ProfileStatus = (props) => {
     setNewStatus(e.currentTarget.value);
   };
 
-  return (    
-      <div>
-        {!editMode && (
-          <div>
-            <span onClick={activateEditMode}>{
-            data || "No status"}</span>
-          </div>
-        )}
-        {editMode && (
-          <div>
-            <input
-              onChange={onStatusChange}
-              autoFocus={true}
-              onBlur={deactivateEditMode}
-              value={newStatus}
-            />
-          </div>
-        )}
-      </div>
-    
+  return (
+    <div>
+      {!editMode && (
+        <div>
+          <span onClick={activateEditMode}>{data || "No status"}</span>
+        </div>
+      )}
+      {editMode && (
+        <div>
+          <input
+            onChange={onStatusChange}
+            autoFocus={true}
+            onBlur={deactivateEditMode}
+            value={newStatus}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 
