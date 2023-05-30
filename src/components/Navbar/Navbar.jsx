@@ -21,6 +21,10 @@ const Navbar = () => {
         Profile
       </NavLink>
 
+      <NavLink className={styles} to={`/friends`}>
+        Friends
+      </NavLink>
+
       <NavLink className={styles} to="/messages">
         Messages
       </NavLink>

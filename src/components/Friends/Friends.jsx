@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 // import styles from "./Users.module.scss";
 import Paginator from "../common/Paginator/Paginator";
-import User from "./User";
-import {
-  useFollowMutation,
+import User from "../Users/User";
+import {  
   useGetUsersQuery,
   useUnfollowMutation,
 } from "../../api/apiSlice";
 import Preloader from "../common/preloader/Preloader";
 import PageNotFound from "../404/PageNotFound";
 
-const Users = () => {
+const Friends = ()=>{
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [term, setTerm] = useState("");
@@ -18,21 +17,16 @@ const Users = () => {
   const { data, error, isLoading, isFetching} = useGetUsersQuery({
     currentPage,
     pageSize,
-    term
+    term,
+    friends:true
   });
-
   
-  const [follow, {}] = useFollowMutation();
   const [unfollow, {}] = useUnfollowMutation();
-
-  const handleFollow = async (id) => {
-    await follow(id).unwrap();
-  };
+  
   const handleUnfollow = async (id) => {
     await unfollow(id).unwrap();
   };
-
-  return (
+  return(
     <><div>
       <input placeholder="Search" value={term} onChange={(e)=>{setTerm(e.target.value)}}/>
       
@@ -51,8 +45,7 @@ const Users = () => {
               <User
                 user={u}
                 key={u.id}
-                unfollow={handleUnfollow}
-                follow={handleFollow}
+                unfollow={handleUnfollow}                
               />
             ))}
           </div>
@@ -68,7 +61,7 @@ const Users = () => {
         </>
       ) : <div>No users</div>}
     </>
-  );
+  )
 };
 
-export default Users;
+export default Friends;

@@ -12,6 +12,8 @@ import {
   useSavePhotoMutation,
   useSaveProfileMutation,
 } from "../../api/apiSlice";
+import PageNotFound from "../404/PageNotFound";
+
 
 const Profile = () => {
   const [editMode, setEditMode] = useState(false);
@@ -74,7 +76,7 @@ const Profile = () => {
     <main className={s.main}>
       <>
         {profile.isError ? (
-          <>Oh no, there was an error</>
+          <><PageNotFound/></>
         ) : profile.isLoading ? (
           <>
             <Preloader />

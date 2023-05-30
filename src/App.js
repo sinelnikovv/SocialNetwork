@@ -6,6 +6,8 @@ import Preloader from "./components/common/preloader/Preloader";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/routes/AppRouter";
 import { useMeQuery } from "./api/apiSlice";
+import PageNotFound from "./components/404/PageNotFound";
+
 
 const App = (props) => {
   const { data, error, isLoading } = useMeQuery();  
@@ -15,7 +17,7 @@ const App = (props) => {
       <div className={s.wrapper}>
         <>
           {error ? (
-            <>Oh no, there was an error</>
+            <><PageNotFound/></>
           ) : isLoading ? (
             <>
               <Preloader />

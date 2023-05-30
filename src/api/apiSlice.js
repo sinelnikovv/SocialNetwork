@@ -11,8 +11,8 @@ export const usersApi = createApi({
   endpoints: (build) => ({
     // A query endpoint with an argument
     getUsers: build.query({
-      query: ({ currentPage, pageSize }) =>
-        `users?page=${currentPage}&count=${pageSize}`,
+      query: ({ currentPage, pageSize, term, friends=false}) =>
+        `users?page=${currentPage}&count=${pageSize}${term ? `&term=${term}`:''}${friends ? `&friend=true`:""}`,
       providesTags: ["Users"],
     }),
     // A mutation endpoint
