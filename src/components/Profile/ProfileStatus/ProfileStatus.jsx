@@ -34,9 +34,10 @@ const ProfileStatus = (props) => {
       {!editMode && (
         <Box>
           <Typography sx={{ my: 1, p: 0 }}>{data || "No status"}</Typography>
-          <Button size="small" variant="outlined" onClick={activateEditMode}>
+          {props.isOwner&&<Button size="small" variant="outlined" onClick={activateEditMode}>
             Edit status
-          </Button>
+          </Button>}
+          
         </Box>
       )}
       {editMode && (

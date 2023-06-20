@@ -94,7 +94,7 @@ const Profile = () => {
             width: {xs:260, sm:320}, 
             height: {xs:260, sm:320} }}
         />
-        <Box className={styles.addPhotoBtnDesktop}>
+        {isOwner&&<Box className={styles.addPhotoBtnDesktop}>
           <Button
             onClick={handlePhotoModalOpen}
             color="info"
@@ -103,12 +103,14 @@ const Profile = () => {
           >
             Add photo
           </Button>
-        </Box>
-        <Box className={styles.addPhotoBtnMobile}>
+        </Box>}
+        {isOwner&&<Box className={styles.addPhotoBtnMobile}>
           <IconButton color="info" onClick={handlePhotoModalOpen}>
             <AddAPhotoOutlinedIcon />
           </IconButton>
-        </Box>
+        </Box>}
+        
+        
       </Box>
       <Box sx={{ alignSelf: "stretch", px: 3, py: 1, flexGrow:1 }}>     
 
