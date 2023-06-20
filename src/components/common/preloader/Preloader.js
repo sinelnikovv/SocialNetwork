@@ -1,22 +1,31 @@
-import React, { useState,  useEffect } from "react";
-import preloader from "../../../assets/img/preloader.svg";
-import styles from "./Preloader.module.scss"
+import React from "react";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
 
 const Preloader = () => {
-
-  const [isShowen, setIsShow] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsShow(true);
-    }, 200);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const component = <div className={styles.preloader}>      
-  <img src={preloader} alt="Loader"/></div>
-
-  return isShowen && component
-  ;
+  return (
+    <Box sx={{ backgroundColor: "red", width: "100%", height: "100px" }}>
+      <Backdrop
+        open
+        sx={{
+          color: "#eee",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          position: "relative",
+          width: "100%", 
+          height: "100%"
+        }}
+      >
+        <CircularProgress
+          size={68}
+          sx={{
+            position: "absolute",
+            // top: "50%",
+            // right: "50%",
+            // marginTop: "-34px",
+            // marginBottom: "-34px",
+          }}
+        />
+      </Backdrop>
+    </Box>
+  );
 };
 export default Preloader;

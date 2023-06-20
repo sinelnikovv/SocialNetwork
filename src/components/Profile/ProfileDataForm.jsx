@@ -1,26 +1,28 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import s from "./ProfileData.module.scss";
-
 // import err from "../forms/FormsControl/FormsControls.module.scss";
-import facebook from "../../assets/img/facebook.svg";
-import twitter from "../../assets/img/twitter.svg";
-import github from "../../assets/img/github.svg";
-import instagram from "../../assets/img/instagram.svg";
-import mainLink from "../../assets/img/mainLink.svg";
-import vk from "../../assets/img/vk.svg";
-import website from "../../assets/img/website.svg";
-import youtube from "../../assets/img/youtube.svg";
+import { Box, Button, TextField } from "@mui/material";
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 
+import Dialog from '@mui/material/Dialog';
+import Typography from "@mui/material/Typography";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LanguageIcon from "@mui/icons-material/Language";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 const ProfileDataForm = (props) => {
-
   const changeProfileSchema = yup.object().shape({
     fullName: yup
-      .string("Name should be a string")    
-      .min(2,"Name must have at least 2 letters"),
-    
+      .string("Name should be a string")
+      .min(2, "Name must have at least 2 letters"),
   });
 
   const {
@@ -43,156 +45,191 @@ const ProfileDataForm = (props) => {
       youtube: props.profile.contacts.youtube,
     },
     resolver: yupResolver(changeProfileSchema),
-    
   });
 
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (props.isFormModalOpen) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [props.isFormModalOpen]);
+
   return (
-    <form onSubmit={handleSubmit(props.onSubmit)}>
-      <button>Save</button>
-
-      <div>
-        <label htmlFor="fullName">Your name</label>
-        <input {...register("fullName")} name="fullName" id="fullName" placeholder="Full name" />
-        {errors.fullName ? (
-            <span>{errors.fullName.message}</span>
-          ) : (
-            <></>
-          )}
-      </div>
-
-      <div>
-        <label htmlFor="aboutMe">About me:</label>
-        <input {...register("aboutMe")} name="aboutMe" id="aboutMe" placeholder={"About me"} />
-      </div>
-
-      <div>
-        <label htmlFor="lookingForAJob">Looking For a job:</label>
-        <input {...register("lookingForAJob")} name="lookingForAJob" id="lookingForAJob" type={"checkbox"} />
-      </div>
-
-      <div>
-        <label htmlFor="lookingForAJobDescription">Skills:</label>
-        <input {...register("lookingForAJobDescription")} name="lookingForAJobDescription" id="lookingForAJobDescription" placeholder={"My skills"} />
-      </div>
-
-      <div className={s.contacts_title}>
-        My contacts:
-        <div className={s.contacts}>
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={facebook} alt="Facebook logo" />
-            </div>
-            <div className={s.contactItem}>
-              <input
-              {...register("facebook")}
-                name="facebook"
-                id="facebook"
-                placeholder={"Facebook"}
+    <Dialog open={props.isFormModalOpen} onClose={props.handleCloseFormModal} scroll="paper">
+       <DialogTitle id="scroll-dialog-title">Change profile</DialogTitle>
+       <DialogContent dividers>
+        <form onSubmit={handleSubmit(props.onSubmit)}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box>
+              <TextField
+                sx={{ mb: 1, p: 0 }}
+                id="fullName"
+                variant="outlined"
+                label="Your name"
+                name="fullName"
+                {...register("fullName")}
+                required
+                error={errors.fullName}
               />
-            </div>
-          </div>
+              {errors.fullName ? (
+                <Typography variant="body2" component="p">
+                  {errors.fullName.message}
+                </Typography>
+              ) : (
+                <></>
+              )}
+            </Box>
+            <Box>
+              <TextField
+                sx={{ mb: 1, p: 0 }}
+                id="aboutMe"
+                variant="outlined"
+                label="About me"
+                name="aboutMe"
+                {...register("aboutMe")}
+              />
+            </Box>
+            <FormControlLabel
+              sx={{ m: 0 }}
+              labelPlacement="start"
+              control={
+                <Checkbox
+                  {...register("lookingForAJob")}
+                  name="lookingForAJob"
+                  id="lookingForAJob"
+                />
+              }
+              label="Looking For a job:"
+            />
 
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={github} alt="Github logo" />
-            </div>
-            <div className={s.contactItem}>
-            <input
-            {...register("github")}
-                name="github"
+            <TextField
+              sx={{ mb: 1, p: 0 }}
+              id="lookingForAJobDescription"
+              variant="outlined"
+              label="My skills"
+              name="lookingForAJobDescription"
+              {...register("lookingForAJobDescription")}
+            />
+            <Typography sx={{ my: 2 }}>My contacts:</Typography>
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <FacebookOutlinedIcon
+                fontSize="large"
+                sx={{ color: "action.active", mr: 1, my: 0.5 }}
+              />
+              <TextField
+                sx={{ mb: 1, p: 0 }}
+                id="facebook"
+                variant="outlined"
+                label="Facebook"
+                name="facebook"
+                {...register("facebook")}
+              />
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <GitHubIcon
+                fontSize="large"
+                sx={{ color: "action.active", mr: 1, my: 0.5 }}
+              />
+              <TextField
+                sx={{ mb: 1, p: 0 }}
                 id="github"
-                placeholder={"Github"}
-              />              
-            </div>
-          </div>
+                variant="outlined"
+                label="Github"
+                name="github"
+                {...register("github")}
+              />
+            </Box>
 
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={instagram} alt="Instagram logo" />
-            </div>
-            <div className={s.contactItem}>
-            <input
-            {...register("instagram")}
-                name="instagram"
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <InstagramIcon
+                fontSize="large"
+                sx={{ color: "action.active", mr: 1, my: 0.5 }}
+              />
+              <TextField
+                sx={{ mb: 1, p: 0 }}
                 id="instagram"
-                placeholder={"Instagram"}
-              />                   
-            </div>
-          </div>
+                variant="outlined"
+                label="Instagram"
+                name="instagram"
+                {...register("instagram")}
+              />
+            </Box>
 
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={mainLink} alt="main link logo" />
-            </div>
-            <div className={s.contactItem}>              
-              <input
-              {...register("mainLink")}
-                name="mainLink"
-                id="mainLink"
-                placeholder={"Main link"}
-              />    
-            </div>
-          </div>
-
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={twitter} alt="twitter logo" />
-            </div>
-            <div className={s.contactItem}>
-            <input
-            {...register("twitter")}
-                name="twitter"
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <TwitterIcon
+                fontSize="large"
+                sx={{ color: "action.active", mr: 1, my: 0.5 }}
+              />
+              <TextField
+                sx={{ mb: 1, p: 0 }}
                 id="twitter"
-                placeholder={"Twitter"}
-              />                
-            </div>
-          </div>
+                variant="outlined"
+                label="Twitter"
+                name="twitter"
+                {...register("twitter")}
+              />
+            </Box>
 
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={vk} alt="vk logo" />
-            </div>
-            <div className={s.contactItem}>
-            <input
-            {...register("vk")}
-                name="vk"
-                id="vk"
-                placeholder={"Vk"}
-              />                
-            </div>
-          </div>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <LanguageIcon
+                fontSize="large"
+                sx={{ color: "action.active", mr: 1, my: 0.5 }}
+              />
+              <TextField
+                sx={{ mb: 1, p: 0 }}
+                id="mainLink"
+                variant="outlined"
+                label="Main link"
+                name="mainLink"
+                {...register("mainLink")}
+              />
+            </Box>
 
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={website} alt="website logo" />
-            </div>
-            <div className={s.contactItem}>
-            <input
-            {...register("website")}
-                name="website"
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <LanguageIcon
+                fontSize="large"
+                sx={{ color: "action.active", mr: 1, my: 0.5 }}
+              />
+              <TextField
+                sx={{ mb: 1, p: 0 }}
                 id="website"
-                placeholder={"Website"}
-              />                   
-            </div>
-          </div>
+                variant="outlined"
+                label="Website"
+                name="website"
+                {...register("website")}
+              />
+            </Box>     
 
-          <div className={s.contact}>
-            <div className={s.logo}>
-              <img src={youtube} alt="youtube logo" />
-            </div>
-            <div className={s.contactItem}>
-            <input
-            {...register("youtube")}
-                name="youtube"
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <YouTubeIcon
+                fontSize="large"
+                sx={{ color: "action.active", mr: 1, my: 0.5 }}
+              />
+              <TextField
+                sx={{ mb: 1, p: 0 }}
                 id="youtube"
-                placeholder={"Youtube"}
-              />              
-            </div>
-          </div>
-        </div>
-      </div>     
-    </form>
+                variant="outlined"
+                label="Youtube"
+                name="youtube"
+                {...register("youtube")}
+              />
+            </Box>
+            <Button type="submit" variant="outlined">Save</Button>            
+          </Box>
+        </form>
+        </DialogContent>
+    </Dialog>
   );
-}
+};
 
 export default ProfileDataForm;

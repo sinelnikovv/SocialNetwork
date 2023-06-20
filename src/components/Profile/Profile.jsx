@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import s from "./Profile.module.scss";
-import userPhoto from "../../assets/img/avatar.png";
+import styles from "./Profile.module.scss";
 import ProfileDataForm from "./ProfileDataForm";
 import ProfileData from "./ProfileData";
-import ProfileStatus from "../ProfileStatus/ProfileStatus";
 import Preloader from "../common/preloader/Preloader";
 import { useParams } from "react-router-dom";
 import {
@@ -13,10 +11,18 @@ import {
   useSaveProfileMutation,
 } from "../../api/apiSlice";
 import PageNotFound from "../404/PageNotFound";
+import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
+import { Avatar, Box, Button } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import AddPhotoModal from "./AddPhotoModal/AddPhotoModal";
 
 
 const Profile = () => {
-  const [editMode, setEditMode] = useState(false);
+  const [isFormModalOpen, setFormModalOpen] = useState(false);
+  const [isPhotoModalOpen, setPhotoModalOpen] = useState(false);
+  const handlePhotoModalOpen = () => setPhotoModalOpen(true);
+  const handlePhotoModalClose = () => setPhotoModalOpen(false);
+  const handleFormModalClose = () => setFormModalOpen(false);
 
   const me = useMeQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -27,31 +33,30 @@ const Profile = () => {
   let paramId = useParams();
   let userId = paramId.userId;
   let isOwner = false;
-  if(!userId){
-    userId = me.me.id
+  if (!userId) {
+    userId = me.me.id;
   }
-  if (userId == me.me.id) {
+  if (userId === me.me.id) {
     isOwner = true;
   }
 
   const profile = useGetProfileQuery(userId);
 
-  const [saveProfile, { isLoading }] = useSaveProfileMutation();
+  const [saveProfile] = useSaveProfileMutation();
 
   const [savePhoto] = useSavePhotoMutation();
 
-
   const goToEditMode = () => {
-    setEditMode(true);
+    setFormModalOpen(true);
   };
 
-  const onSubmit = (formData) => {       
+  const onSubmit = (formData) => {
     let body = {
       fullName: formData.fullName,
       aboutMe: formData.aboutMe,
       lookingForAJob: formData.lookingForAJob,
       lookingForAJobDescription: formData.lookingForAJobDescription,
-      contacts:{
+      contacts: {
         facebook: formData.facebook,
         github: formData.github,
         instagram: formData.instagram,
@@ -60,64 +65,68 @@ const Profile = () => {
         vk: formData.vk,
         website: formData.website,
         youtube: formData.youtube,
-      }      
-    }
-    saveProfile(body).unwrap();      
-    setEditMode(false);
+      },
+    };
+    saveProfile(body).unwrap();
+    setFormModalOpen(false);
   };
 
-  const onMainPhotoSelected = (e) => {
-    if (e.target.files.length) {
-      savePhoto(e.target.files[0]);
-      }
-  };
-  
-  return (
-    <main className={s.main}>
-      <>
-        {profile.isError ? (
-          <><PageNotFound/></>
-        ) : profile.isLoading ? (
-          <>
-            <Preloader />
-          </>
-        ) : profile.data ? (
-          <>
-            {(isLoading) && <Preloader />}
-            {profile.isFetching && <Preloader />}
-            <div>
-              <div className={s.content}>
-                <div className={s.ava}>
-                  <img src={profile.data.photos.large || userPhoto} alt="" />
-                  {isOwner && (
-                    <input type={"file"} onChange={onMainPhotoSelected} />
-                  )}
-                </div>
-                <div className={s.info}>
-                  <h3 className={s.name}>{profile.data.fullName}</h3>
+  return profile.isError ? (
+    <PageNotFound />
+  ) : profile.isLoading ? (
+    <Preloader />
+  ) : profile.data ? (
+    // <Preloader />
+    <Box
+      sx={{
+        p: 2,
+        display: "flex",
+        flexDirection: {xs:"column", md:"row"},
+        alignItems: "center",
+      }}
+    >
+      <Box sx={{ position: "relative" }}>
+        <Avatar
+          alt={profile.data.fullName}
+          src={profile.data.photos.large}
+          variant="square"
+          sx={{ 
+            width: {xs:260, sm:320}, 
+            height: {xs:260, sm:320} }}
+        />
+        <Box className={styles.addPhotoBtnDesktop}>
+          <Button
+            onClick={handlePhotoModalOpen}
+            color="info"
+            variant="outlined"
+            startIcon={<AddAPhotoOutlinedIcon />}
+          >
+            Add photo
+          </Button>
+        </Box>
+        <Box className={styles.addPhotoBtnMobile}>
+          <IconButton color="info" onClick={handlePhotoModalOpen}>
+            <AddAPhotoOutlinedIcon />
+          </IconButton>
+        </Box>
+      </Box>
+      <Box sx={{ alignSelf: "stretch", px: 3, py: 1, flexGrow:1 }}>     
 
-                  <ProfileStatus isOwner={isOwner} userId={userId} />
-
-                  {editMode ? (
-                    <ProfileDataForm                      
-                      profile={profile.data}
-                      onSubmit={onSubmit}
-                    />
-                  ) : (
-                    <ProfileData
-                      goToEditMode={goToEditMode}
-                      profile={profile.data}                 
-                      isOwner={isOwner}
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-          </>
-        ) : null}
-      </>
-    </main>
-  );
+       
+        <ProfileData
+          goToEditMode={goToEditMode}
+          profile={profile.data}
+          isOwner={isOwner}
+        />
+        <ProfileDataForm profile={profile.data} onSubmit={onSubmit} isFormModalOpen={isFormModalOpen} handleCloseFormModal={handleFormModalClose}/>
+      </Box>
+      <AddPhotoModal
+        isPhotoModalOpen={isPhotoModalOpen}
+        handleClosePhotoModal={handlePhotoModalClose}
+        onPhotoSend={(photo) => savePhoto(photo)}
+      />
+    </Box>
+  ) : null;
 };
 
 export default Profile;

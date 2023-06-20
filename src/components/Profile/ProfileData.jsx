@@ -1,127 +1,165 @@
-import facebook from "../../assets/img/facebook.svg";
-import twitter from "../../assets/img/twitter.svg";
-import github from "../../assets/img/github.svg";
-import instagram from "../../assets/img/instagram.svg";
-import mainLink from "../../assets/img/mainLink.svg";
-import vk from "../../assets/img/vk.svg";
-import website from "../../assets/img/website.svg";
-import youtube from "../../assets/img/youtube.svg";
-import s from "./ProfileData.module.scss";
+import { Box, Typography, IconButton, Button, Divider } from "@mui/material";
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LanguageIcon from "@mui/icons-material/Language";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import Tooltip from "@mui/material/Tooltip";
+import Zoom from "@mui/material/Zoom";
+import ProfileStatus from "./ProfileStatus/ProfileStatus";
 
 const ProfileData = (props) => {
   return (
     <>
-      {props.isOwner && <button onClick={props.goToEditMode}>Edit</button>}
-      <div className={s.status}>About me: {props.profile.aboutMe}</div>
-      <div>
-        Looking For a job:
-        <input
-          type="checkbox"
-          name="job"
-          id="job"
-          checked={props.profile.lookingForAJob}
-          disabled
-        />
-      </div>
-      {props.profile.lookingForAJob && (
-        <div>
-          Skills:
-          <div>{props.profile.lookingForAJobDescription}</div>
-        </div>
-      )}
+      <Box sx={{ mt: 1 }}>
 
-      {Object.values(props.profile.contacts).some((elem) => elem !== null) && (
-        <div className={s.contacts_title}>
-          My contacts:
-          <div className={s.contacts}>
-            {props.profile.contacts.facebook && (
-              <a href={props.profile.contacts.facebook} className={s.contact}>
-                <div className={s.logo}>
-                  <img src={facebook} alt="Facebook logo" />
-                </div>
-                <div className={s.contactItem}>
-                  {props.profile.contacts.facebook}
-                </div>
-              </a>
-            )}
+        <Typography variant="h5" component="h4">
+          {props.profile.fullName}
+        </Typography>
+        <Divider />
 
-            {props.profile.contacts.github && (
-              <a href={props.profile.contacts.github} className={s.contact}>
-                <div className={s.logo}>
-                  <img src={github} alt="Github logo" />
-                </div>
-                <div className={s.contactItem}>
-                  {props.profile.contacts.github}
-                </div>
-              </a>
-            )}
+        <ProfileStatus isOwner={props.isOwner} userId={props.profile.userId} />
+        <Divider />
+        <Box sx={{my:2}}>
+        <Typography>About me: {props.profile.aboutMe}</Typography>
+        <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Typography>Looking for a job:</Typography>
+          {props.profile.lookingForAJob ? (
+            <CheckCircleOutlinedIcon />
+          ) : (
+            <CancelOutlinedIcon />
+          )}
+        </Box>
+        <Box>
+          <Typography>
+            Skills: {props.profile.lookingForAJobDescription}
+          </Typography>
+        </Box>
 
-            {props.profile.contacts.instagram && (
-              <a href={props.profile.contacts.instagram} className={s.contact}>
-                <div className={s.logo}>
-                  <img src={instagram} alt="Instagram logo" />
-                </div>
-                <div className={s.contactItem}>
-                  {props.profile.contacts.instagram}
-                </div>
-              </a>
-            )}
+        {Object.values(props.profile.contacts).some(
+          (elem) => elem !== null
+        ) && (
+          <Box>
+            <Typography>My contacts:</Typography>
 
-            {props.profile.contacts.mainLink && (
-              <a href={props.profile.contacts.mainLink} className={s.contact}>
-                <div className={s.logo}>
-                  <img src={mainLink} alt="main link logo" />
-                </div>
-                <div className={s.contactItem}>
-                  {props.profile.contacts.mainLink}
-                </div>
-              </a>
-            )}
+            <Box>
+              {props.profile.contacts.facebook && (
+                <Tooltip
+                  title={props.profile.contacts.facebook}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <IconButton
+                    href={props.profile.contacts.facebook}
+                    color="primary"
+                  >
+                    <FacebookOutlinedIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+              )}
 
-            {props.profile.contacts.twitter && (
-              <a href={props.profile.contacts.twitter} className={s.contact}>
-                <div className={s.logo}>
-                  <img src={twitter} alt="twitter logo" />
-                </div>
-                <div className={s.contactItem}>
-                  {props.profile.contacts.twitter}
-                </div>
-              </a>
-            )}
+              {props.profile.contacts.github && (
+                <Tooltip
+                  title={props.profile.contacts.github}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <IconButton
+                    href={props.profile.contacts.github}
+                    color="primary"
+                  >
+                    <GitHubIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+              )}
 
-            {props.profile.contacts.vk && (
-              <a href={props.profile.contacts.vk} className={s.contact}>
-                <div className={s.logo}>
-                  <img src={vk} alt="vk logo" />
-                </div>
-                <div className={s.contactItem}>{props.profile.contacts.vk}</div>
-              </a>
-            )}
+              {props.profile.contacts.instagram && (
+                <Tooltip
+                  title={props.profile.contacts.instagram}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <IconButton
+                    href={props.profile.contacts.instagram}
+                    color="primary"
+                  >
+                    <InstagramIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+              )}
 
-            {props.profile.contacts.website && (
-              <a className={s.contact} href={props.profile.contacts.website}>
-                <div className={s.logo}>
-                  <img src={website} alt="website logo" />
-                </div>
-                <div className={s.contactItem}>
-                  {props.profile.contacts.website}
-                </div>
-              </a>
-            )}
+              {props.profile.contacts.twitter && (
+                <Tooltip
+                  title={props.profile.contacts.twitter}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <IconButton
+                    href={props.profile.contacts.twitter}
+                    color="primary"
+                  >
+                    <TwitterIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+              )}
 
-            {props.profile.contacts.youtube && (
-              <a className={s.contact} href={props.profile.contacts.youtube}>
-                <div className={s.logo}>
-                  <img src={youtube} alt="youtube logo" />
-                </div>
-                <div className={s.contactItem}>
-                  {props.profile.contacts.youtube}
-                </div>
-              </a>
-            )}
-          </div>
-        </div>
-      )}
+              {props.profile.contacts.mainLink && (
+                <Tooltip
+                  title={props.profile.contacts.mainLink}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <IconButton
+                    href={props.profile.contacts.mainLink}
+                    color="primary"
+                  >
+                    <LanguageIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+              )}
+
+              {props.profile.contacts.website && (
+                <Tooltip
+                  title={props.profile.contacts.website}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <IconButton
+                    href={props.profile.contacts.website}
+                    color="primary"
+                  >
+                    <LanguageIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+              )}
+
+              {props.profile.contacts.youtube && (
+                <Tooltip
+                  title={props.profile.contacts.youtube}
+                  arrow
+                  TransitionComponent={Zoom}
+                >
+                  <IconButton
+                    href={props.profile.contacts.youtube}
+                    color="primary"
+                  >
+                    <YouTubeIcon fontSize="large" />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Box>
+          </Box>
+        )}
+        {props.isOwner && (
+          <Button variant="outlined" onClick={props.goToEditMode}>
+            Edit profile
+          </Button>
+        )}
+        </Box>
+      </Box>
     </>
   );
 };

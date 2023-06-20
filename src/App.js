@@ -46,7 +46,7 @@ const App = () => {
           <Container
             maxWidth="xl"
             sx={{
-              px: { sm: 0 },
+              px: { xs: 0 },
               display: "flex",
               flexDirection: "column",
               height: "100vh",
