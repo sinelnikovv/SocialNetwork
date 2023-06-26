@@ -53,9 +53,9 @@ const App = () => {
             }}
           >
             <Header />
-            <Grid container sx={{ flexGrow: "1" }}>
+            <Grid container sx={{ flexGrow: "1", flexWrap:"nowrap" }}>
               <Navbar />
-              <Grid item xs sx={{backgroundColor:"grey.300", }}>
+              <Grid item  sx={{backgroundColor:"grey.300", display:"flex", flexGrow:"1"}}>
                 <Suspense fallback={<Preloader/>}>
                   <AppRouter />
                 </Suspense>

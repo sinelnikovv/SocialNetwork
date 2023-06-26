@@ -1,31 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Backdrop, Box, CircularProgress } from "@mui/material";
 
 const Preloader = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    let timer = setTimeout(() => setIsOpen(true), 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
   return (
-    <Box sx={{ backgroundColor: "red", width: "100%", height: "100px" }}>
-      <Backdrop
-        open
+    <Backdrop
+      open={isOpen}
+      sx={{
+        color: "#eee",
+        zIndex: 100,
+        position: "absolute",
+        top: "0",
+        bottom: "0",
+        left: "0",
+        right: "0",
+        // width: "100%",
+        // height: "100%"
+      }}
+    >
+      <CircularProgress
+        size={68}
         sx={{
-          color: "#eee",
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          position: "relative",
-          width: "100%", 
-          height: "100%"
+          position: "absolute",
+          // top: "50%",
+          // right: "50%",
+          // marginTop: "-34px",
+          // marginBottom: "-34px",
         }}
-      >
-        <CircularProgress
-          size={68}
-          sx={{
-            position: "absolute",
-            // top: "50%",
-            // right: "50%",
-            // marginTop: "-34px",
-            // marginBottom: "-34px",
-          }}
-        />
-      </Backdrop>
-    </Box>
+      />
+    </Backdrop>
   );
 };
 export default Preloader;

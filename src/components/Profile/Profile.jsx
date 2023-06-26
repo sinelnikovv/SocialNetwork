@@ -82,7 +82,8 @@ const Profile = () => {
         p: 2,
         display: "flex",
         flexDirection: {xs:"column", md:"row"},
-        alignItems: "center",
+        alignItems: {xs:"center", md:"start"},
+        flexGrow:"1"
       }}
     >
       <Box sx={{ position: "relative" }}>

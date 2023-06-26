@@ -10,18 +10,26 @@ import {
 import Preloader from "../common/preloader/Preloader";
 import PageNotFound from "../404/PageNotFound";
 
-const Users = () => {
+import Typography from "@mui/material/Typography";
+import Pagination from "@mui/material/Pagination";
+import { Box, Divider, List, TextField } from "@mui/material";
+
+const Users = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [term, setTerm] = useState("");
 
-  const { data, error, isLoading, isFetching} = useGetUsersQuery({
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const { data, error, isLoading, isFetching } = useGetUsersQuery({
     currentPage,
     pageSize,
-    term
+    term,
+    friends: props.friends
   });
 
-  
   const [follow, {}] = useFollowMutation();
   const [unfollow, {}] = useUnfollowMutation();
 
@@ -33,40 +41,88 @@ const Users = () => {
   };
 
   return (
-    <><div>
-      <input placeholder="Search" value={term} onChange={(e)=>{setTerm(e.target.value)}}/>
-      
-    </div>
-      {error ? (
-        <><PageNotFound/></>
-      ) : isLoading ? (
-        <>
-          <Preloader />
-        </>
-      ) : data.totalCount!=0 ? (
-        <>
-          <div>
-            {isFetching && <Preloader />}
-            {data.items.map((u) => (
-              <User
-                user={u}
-                key={u.id}
-                unfollow={handleUnfollow}
-                follow={handleFollow}
-              />
-            ))}
-          </div>
-          <div>
-            <Paginator
-              currentPage={currentPage}
-              onPageChanged={setCurrentPage}
-              pageSize={pageSize}
-              totalCount={data.totalCount}
-              portionSize={2}
+    <>
+      <Box
+        sx={{
+          m: 2,
+          position: "relative",
+          alignSelf: "stretch",
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",          
+        }}
+      >
+        <TextField
+          fullWidth
+          label="Search"
+          value={term}
+          onChange={(e) => {
+            setTerm(e.target.value);
+          }}
+          sx={{ mb: 2 }}
+        />
+
+        <Divider />
+
+        {error ? (
+          <>
+            <PageNotFound />
+          </>
+        ) : isLoading ? (
+          <>
+            <Preloader />
+          </>
+        ) : data.totalCount != 0 ? (
+          <>
+            <Box sx={{ m: 2, position: "relative" }}>
+              {isFetching && <Preloader />}
+              <List>
+                {data.items.map((u) => (
+                  <>
+                  <User
+                    user={u}
+                    key={u.id}
+                    unfollow={handleUnfollow}
+                    follow={handleFollow}
+                  />
+                  <Divider/>
+                  </>
+                ))}
+              </List>
+            </Box>
+
+            <Pagination
+              showFirstButton
+              showLastButton
+              variant="outlined"
+              shape="rounded"
+              color="primary"
+              count={Math.ceil(data.totalCount / pageSize)}
+              page={currentPage}
+              onChange={handlePageChange}
+              sx={{display:{md:"none"}, alignSelf:"center"}}
+              siblingCount={0}
+              boundaryCount={0}
+              
+              
             />
-          </div>
-        </>
-      ) : <div>No users</div>}
+            <Pagination
+              showFirstButton
+              showLastButton
+              variant="outlined"
+              shape="rounded"
+              color="primary"
+              count={Math.ceil(data.totalCount / pageSize)}
+              page={currentPage}
+              onChange={handlePageChange}              
+              sx={{display:{xs:"none", md:"block"}, alignSelf:"center"}}
+              
+            />
+          </>
+        ) : (
+          <div>No users</div>
+        )}
+      </Box>
     </>
   );
 };
