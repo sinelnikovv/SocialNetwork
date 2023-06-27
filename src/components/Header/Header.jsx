@@ -54,18 +54,21 @@ const Header = (props) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState();
-  
-  const settings = [{ title: "Logout", handler: logout }];  
 
+  const logoutHandler = () => {
+    logout();
+    handleCloseUserMenu();
+  };
+
+  const settings = [{ title: "Logout", handler: logoutHandler }];
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };  
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -76,10 +79,10 @@ const Header = (props) => {
     setMobileOpen(!mobileOpen);
   };
 
-  const { window } = props; 
+  const { window } = props;
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;  
+    window !== undefined ? () => window().document.body : undefined;
 
   const drawerWidth = 240;
   const drawer = (
@@ -93,7 +96,7 @@ const Header = (props) => {
             component={NavLink}
             selected={selectedIndex === index}
             divider
-            sx={{color:"primary.dark"}}    
+            sx={{ color: "primary.dark" }}
           >
             <ListItemButton>
               <ListItemText
@@ -101,11 +104,11 @@ const Header = (props) => {
                 onClick={(event) => handleListItemClick(event, index)}
               />
             </ListItemButton>
-          </ListItem>          
+          </ListItem>
         </>
       ))}
     </List>
-  );  
+  );
 
   return (
     <React.Fragment>
@@ -151,7 +154,6 @@ const Header = (props) => {
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="Navigation pages"
               >
-               
                 <Drawer
                   container={container}
                   variant="temporary"
@@ -195,49 +197,46 @@ const Header = (props) => {
               >
                 SN
               </Typography>
-
-              <Box sx={{ flexGrow: 0, display: "flex" }}>
-                {profile.data ? (
+              {me.id && (
+                <Box sx={{ flexGrow: 0, display: "flex" }}>
                   <Avatar
                     alt={me.login ? me.login : "My name"}
                     src={profile.data.photos.small}
                   />
-                ) : (
-                  <CircularProgress size={30} color={`primary`} />
-                )}
-                <IconButton
-                  color="primary"
-                  onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
-                >
-                  <ExpandMoreIcon />
-                </IconButton>
 
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settings.map((setting) => (                    
+                  <IconButton
+                    color="primary"
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0 }}
+                  >
+                    <ExpandMoreIcon />
+                  </IconButton>
 
-                    <MenuItem key={setting.title} onClick={setting.handler}>
-                      <Typography textAlign="center">
-                        {setting.title}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem key={setting.title} onClick={setting.handler}>
+                        <Typography textAlign="center">
+                          {setting.title}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+              )}
             </Toolbar>
           </Container>
         </AppBar>
@@ -247,4 +246,3 @@ const Header = (props) => {
   );
 };
 export default Header;
-

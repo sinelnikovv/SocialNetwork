@@ -111,51 +111,51 @@ export const profileApi = createApi({
   }),
 });
 
-export const authApi = createApi({
-  reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://social-network.samuraijs.com/api/1.0/",
-    headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
-    credentials: "include",
-  }),
-  endpoints: (build) => ({
-    // A query endpoint without argument
-    me: build.query({
-      query: () => `auth/me`,
-    }),
-    //A mutation endpoint
-    login: build.mutation({
-      query: (body) => ({
-        url: `auth/login`,
-        method: "POST",
-        body
-      }),
-    }),
+// export const authApi = createApi({
+//   reducerPath: "authApi",
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: "https://social-network.samuraijs.com/api/1.0/",
+//     headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
+//     credentials: "include",
+//   }),
+//   endpoints: (build) => ({
+//     // A query endpoint without argument
+//     me: build.query({
+//       query: () => `auth/me`,
+//     }),
+//     //A mutation endpoint
+//     login: build.mutation({
+//       query: (body) => ({
+//         url: `auth/login`,
+//         method: "POST",
+//         body
+//       }),
+//     }),
 
-    logout: build.mutation({
-      query: () => ({
-        url: `auth/login`,
-        method: "DELETE",
-      }),
-    }),
-  }),
-});
+//     logout: build.mutation({
+//       query: () => ({
+//         url: `auth/login`,
+//         method: "DELETE",
+//       }),
+//     }),
+//   }),
+// });
 
-export const securityApi = createApi({
-  reducerPath: "securityApi",
+// export const securityApi = createApi({
+//   reducerPath: "securityApi",
 
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://social-network.samuraijs.com/api/1.0/",
-    headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
-    credentials: "include",
-  }),
-  endpoints: (build) => ({
-    // A query endpoint without argument
-    getCaptchaUrl: build.query({
-      query: () => `security/get-captcha-url`,
-    }),
-  }),
-});
+//   baseQuery: fetchBaseQuery({
+//     baseUrl: "https://social-network.samuraijs.com/api/1.0/",
+//     headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
+//     credentials: "include",
+//   }),
+//   endpoints: (build) => ({
+//     // A query endpoint without argument
+//     getCaptchaUrl: build.query({
+//       query: () => `security/get-captcha-url`,
+//     }),
+//   }),
+// });
 
 export const { useGetUsersQuery, useFollowMutation, useUnfollowMutation } =
   usersApi;
