@@ -47,7 +47,7 @@ const Header = (props) => {
     }),
   });
 
-  const profile = useGetProfileQuery(me.id);
+  const profile = useGetProfileQuery(me.id, {skip:!me.id});
 
   const [logout] = useLogoutMutation();
 
@@ -201,7 +201,7 @@ const Header = (props) => {
                 <Box sx={{ flexGrow: 0, display: "flex" }}>
                   <Avatar
                     alt={me.login ? me.login : "My name"}
-                    src={profile.data.photos.small}
+                    src={profile.data ? profile.data.photos.small : "broken.jpg"}
                   />
 
                   <IconButton

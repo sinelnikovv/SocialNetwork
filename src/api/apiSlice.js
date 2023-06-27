@@ -55,7 +55,7 @@ export const profileApi = createApi({
         method: "POST",
         body
       }),
-      invalidatesTags: ["Me", "Profile"],
+      invalidatesTags: ["Me"],
     }),
 
     logout: build.mutation({
@@ -63,20 +63,23 @@ export const profileApi = createApi({
         url: `auth/login`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Me", "Profile"],
+      invalidatesTags: ["Me"],
     }),
 
     getCaptchaUrl: build.query({
       query: () => `security/get-captcha-url`,
+      keepUnusedDataFor: 0,
     }),
     // A query endpoint with an argument
     getProfile: build.query({
       query: (userId) => `profile/${userId}`,
+      keepUnusedDataFor: 0,
       providesTags: ["Profile"],
     }),
     getStatus: build.query({
       query: (userId) => `profile/status/` + userId,
       providesTags: ["Status"],
+      keepUnusedDataFor: 0,
     }),
     // A mutation endpoint
     updateStatus: build.mutation({
