@@ -1,12 +1,9 @@
-import React, { useState } from "react";
-import styles from "./User.module.scss";
-import userPhoto from "../../assets/img/avatar.png";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   Avatar,
   Box,
-  Button,
-  Divider,
+  Button,  
   ListItem,
   Typography,
 } from "@mui/material";

@@ -114,51 +114,52 @@ export const profileApi = createApi({
   }),
 });
 
-// export const authApi = createApi({
-//   reducerPath: "authApi",
-//   baseQuery: fetchBaseQuery({
-//     baseUrl: "https://social-network.samuraijs.com/api/1.0/",
-//     headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
-//     credentials: "include",
-//   }),
-//   endpoints: (build) => ({
-//     // A query endpoint without argument
-//     me: build.query({
-//       query: () => `auth/me`,
-//     }),
-//     //A mutation endpoint
-//     login: build.mutation({
-//       query: (body) => ({
-//         url: `auth/login`,
-//         method: "POST",
-//         body
-//       }),
-//     }),
+export const messageApi = createApi({
+  reducerPath: "messageApi",
+  tagTypes: ["Dialogs", "Messages"],
+  baseQuery: fetchBaseQuery({
+    baseUrl: "https://social-network.samuraijs.com/api/1.0/",
+    headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
+    credentials: "include",
+  }),
+  endpoints: (build) => ({
+    // A query endpoint without argument
+    getAllDialogs: build.query({
+      query: () => `dialogs`, 
+        
+    }),
+    getNewMessages: build.query({
+      query: () => `dialogs/messages/new/count`, 
+         
+    }),
+     // A query endpoint with an argument
+    getFriendDialog: build.query({
+      query: (userId, page, count) => `dialogs/${userId}/messages?${page ? `&page=${page}`:''}${count ? `&count=${count}`:''}`, 
+        
+    }),
 
-//     logout: build.mutation({
-//       query: () => ({
-//         url: `auth/login`,
-//         method: "DELETE",
-//       }),
-//     }),
-//   }),
-// });
+    //A mutation endpoint post
+    sendMessage: build.mutation({
+      query: (userId, body) => ({
+        url: `dialogs/${userId}/messages`,
+        method: "POST",
+        body
+      }),     
+    }),
+   
+   
+    // A mutation endpoint put
+    startChatingRefresh: build.mutation({
+      query: (userId) => ({
+        url: `dialogs/${userId}`,
+        method: "PUT"
+        
+      }),
+    }),    
+  }),
+});
 
-// export const securityApi = createApi({
-//   reducerPath: "securityApi",
 
-//   baseQuery: fetchBaseQuery({
-//     baseUrl: "https://social-network.samuraijs.com/api/1.0/",
-//     headers: { "API-KEY": "f2bcdd0d-7a7a-4176-9f14-ede063f9113e" },
-//     credentials: "include",
-//   }),
-//   endpoints: (build) => ({
-//     // A query endpoint without argument
-//     getCaptchaUrl: build.query({
-//       query: () => `security/get-captcha-url`,
-//     }),
-//   }),
-// });
 
 export const { useGetUsersQuery, useFollowMutation, useUnfollowMutation } =
   usersApi;
@@ -175,6 +176,8 @@ export const {
   useGetCaptchaUrlQuery 
 } = profileApi;
 
-// export const { useMeQuery, useLoginMutation, useLogoutMutation } = authApi;
+export const { useGetAllDialogsQuery, useGetNewMessagesQuery,  useGetFriendDialogQuery,  useSendMessageMutation, useStartChatingRefreshMutation } =
+messageApi;
 
-//export const { useGetCaptchaUrlQuery } = securityApi;
+
+

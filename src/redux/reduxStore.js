@@ -1,19 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import dialogReducer from "./dialogReducer";
-//import { reducer as formReducer } from "redux-form";
-import { profileApi, usersApi } from "../api/apiSlice";
+import { profileApi, usersApi, messageApi } from "../api/apiSlice";
 
 const store = configureStore({
   reducer: {
     [profileApi.reducerPath]: profileApi.reducer,    
-    [usersApi.reducerPath]: usersApi.reducer,    
-    dialogPage: dialogReducer,
+    [usersApi.reducerPath]: usersApi.reducer,  
+    [messageApi.reducerPath]: messageApi.reducer,  
+    
     
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(      
       profileApi.middleware,      
-      usersApi.middleware
+      usersApi.middleware,
+      messageApi.middleware,
     ),
 });
 

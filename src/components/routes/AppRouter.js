@@ -7,7 +7,7 @@ const Friends = lazy(() => import("../Friends/Friends"));
 const News = lazy(() => import("../News/News"));
 const Music = lazy(() => import("../Music/Music"));
 const Settings = lazy(() => import("../Settings/Settings"));
-const DialogsContainer = lazy(() => import("../Dialogs/DialogsContainer"));
+const Dialogs = lazy(() => import("../Dialogs/Dialogs"));
 const Profile = lazy(() => import("../Profile/Profile"));
 const LoginPage = lazy(() => import("../Login/Login"));
 const PageNotFound = lazy(() => import("../404/PageNotFound"));
@@ -25,7 +25,7 @@ const AppRouter = () => {
       <Route path="/" element={<Navigate to="/profile" />} />
       <Route path="/profile/:userId?" element={<Profile />} />
       <Route path="/friends" element={<Friends />} />
-      <Route path="/messages" element={<DialogsContainer />} />
+      <Route path="/messages" element={<Dialogs />} />
       <Route path="/news" element={<News />} />
       <Route path="/music" element={<Music />} />
       <Route path="/settings" element={<Settings />} />
