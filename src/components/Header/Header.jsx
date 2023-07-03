@@ -9,7 +9,6 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import CameraOutlinedIcon from "@mui/icons-material/CameraOutlined";
-import CircularProgress from "@mui/material/CircularProgress";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";

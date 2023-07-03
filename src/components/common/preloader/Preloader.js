@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Backdrop, Box, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const Preloader = () => {
   const [isOpen, setIsOpen] = useState(false);

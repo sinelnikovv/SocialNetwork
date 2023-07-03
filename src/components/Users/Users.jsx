@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import styles from "./Users.module.scss";
-import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
 import {
   useFollowMutation,
@@ -9,8 +7,6 @@ import {
 } from "../../api/apiSlice";
 import Preloader from "../common/preloader/Preloader";
 import PageNotFound from "../404/PageNotFound";
-
-import Typography from "@mui/material/Typography";
 import Pagination from "@mui/material/Pagination";
 import { Box, Divider, List, TextField } from "@mui/material";
 
@@ -30,8 +26,8 @@ const Users = (props) => {
     friends: props.friends
   });
 
-  const [follow, {}] = useFollowMutation();
-  const [unfollow, {}] = useUnfollowMutation();
+  const [follow] = useFollowMutation();
+  const [unfollow] = useUnfollowMutation();
 
   const handleFollow = async (id) => {
     await follow(id).unwrap();
@@ -72,7 +68,7 @@ const Users = (props) => {
           <>
             <Preloader />
           </>
-        ) : data.totalCount != 0 ? (
+        ) : data.totalCount !== 0 ? (
           <>
             <Box sx={{ m: 2, position: "relative" }}>
               {isFetching && <Preloader />}

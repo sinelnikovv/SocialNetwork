@@ -136,26 +136,12 @@ export const messageApi = createApi({
     getFriendDialog: build.query({
       query: (userId, page, count) => `dialogs/${userId}/messages?${page ? `&page=${page}`:''}${count ? `&count=${count}`:''}`, 
         
-    }),
-
-    //A mutation endpoint post
-    sendMessage: build.mutation({
-      query: (userId, body) => ({
-        url: `dialogs/${userId}/messages`,
-        method: "POST",
-        body
-      }),     
-    }),
-   
-   
-    // A mutation endpoint put
-    startChatingRefresh: build.mutation({
-      query: (userId) => ({
-        url: `dialogs/${userId}`,
-        method: "PUT"
-        
-      }),
     }),    
+    
+   
+   
+   
+   
   }),
 });
 

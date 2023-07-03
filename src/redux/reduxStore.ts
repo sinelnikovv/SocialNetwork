@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { profileApi, usersApi, messageApi } from "../api/apiSlice";
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     [profileApi.reducerPath]: profileApi.reducer,    
     [usersApi.reducerPath]: usersApi.reducer,  
@@ -18,3 +18,6 @@ const store = configureStore({
 });
 
 export default store;
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

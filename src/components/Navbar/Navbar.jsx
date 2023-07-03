@@ -1,28 +1,17 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useMeQuery } from "../../api/apiSlice";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItem from "@mui/material/ListItem";
-
 import pages from "../pages/pages";
-
 import Grid from "@mui/material/Grid"; // Grid version 1
 
-
 const Navbar = () => {
-  const { me } = useMeQuery(undefined, {
-    selectFromResult: ({ data }) => ({
-      me: data.data,
-    }),
-  });
-
- 
 
   const [selectedIndex, setSelectedIndex] = useState();
 
-  const handleListItemClick = (event, index) => {
+  const handleListItemClick = ( index) => {
     setSelectedIndex(index);
   };
 
@@ -56,7 +45,7 @@ const Navbar = () => {
               <ListItemButton>
                 <ListItemText
                   primary={page.title}
-                  onClick={(event) => handleListItemClick(event, index)}
+                  onClick={() => handleListItemClick(index)}
                 />
               </ListItemButton>
             </ListItem>

@@ -4,9 +4,6 @@ import { useMeQuery } from "../../api/apiSlice";
 
 const Users = lazy(() => import("../Users/Users"));
 const Friends = lazy(() => import("../Friends/Friends"));
-const News = lazy(() => import("../News/News"));
-const Music = lazy(() => import("../Music/Music"));
-const Settings = lazy(() => import("../Settings/Settings"));
 const Dialogs = lazy(() => import("../Dialogs/Dialogs"));
 const Profile = lazy(() => import("../Profile/Profile"));
 const LoginPage = lazy(() => import("../Login/Login"));
@@ -25,10 +22,7 @@ const AppRouter = () => {
       <Route path="/" element={<Navigate to="/profile" />} />
       <Route path="/profile/:userId?" element={<Profile />} />
       <Route path="/friends" element={<Friends />} />
-      <Route path="/messages" element={<Dialogs />} />
-      <Route path="/news" element={<News />} />
-      <Route path="/music" element={<Music />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/messages" element={<Dialogs />} />     
       <Route path="/users" element={<Users />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="*" element={<PageNotFound/>} />

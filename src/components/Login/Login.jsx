@@ -91,7 +91,7 @@ const Login = () => {
         </div>
         {data && (
           <div>
-            <img src={data.url} />
+            <img src={data.url} alt="Captcha"/>
             <input
               {...register("captcha")}
               name="captcha"

@@ -77,7 +77,7 @@ const AddPhotoModal = (props) => {
     }
   }
 
-  function onDownloadCropClick() {
+  function onSendClick() {
     if (!previewCanvasRef.current) {
       throw new Error("Crop canvas does not exist");
     }
@@ -201,7 +201,7 @@ const AddPhotoModal = (props) => {
               </div>
 
               <Box>
-                <button onClick={onDownloadCropClick}>Send Crop</button>
+                <button onClick={onSendClick}>Send Crop</button>
                 <Typography
                   sx={[
                     {
